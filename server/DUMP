@@ -1,0 +1,47 @@
+INSERT INTO alumnilist(title, firstName, lastName, middleName, nationality, category, religion, linkedin, github, address, pincode, state, city, country, phone, altPhone, dob, email, altEmail, courseCompleted, registrationNo, rollNo, discipline, gradYear, occupation, ctc, ongoingCourseDetails, ongoingDiscipline, ongoingGradYear, currentOrganisation, jobtitle, preparing, currentStatus) VALUES('Mr.', 'Daknya', 'Bam', 'kumar', 'Indian', 'General', 'Other', 'https://www.linkedin.com/in/pursottamsah/', 'https://www.linkedin.com/in/pursottamsah/', 'Arunachal Pradesh', '790003', 'Arunachal Pradesh', 'Itanagar', 'India', '+916033926408', '+918004600238', '05/22/2023', 'email@daknya.com', 'daknya@email.com', 'B Tech in Computer Science and Engineering', 'A10292000/A', 'CSE/20/37', 'sasdf', '2024', 'Software Developer Engineer', '50000033', '', '', '', 'Google India', 'SDE-2', '', 'working',?,?,?,?)
+
+
+const DeptList = [
+  { label: "Basic and Applied Sciences" },
+  { label: "Biotechnology" },
+  { label: "Chemical Engineering" },
+  { label: "Civil Engineering" },
+  { label: "Computer Science & Engineering" },
+  { label: "Electrical Engineering" },
+  { label: "Electronics & Communication Engineering" },
+  { label: "Mechanical Engineering" },
+  { label: "Management and Humanities" },
+]
+
+const BatchList = [
+  { label: "UG 2010-14" },
+  { label: "UG 2011-15" },
+  { label: "UG 2012-16" },
+  { label: "UG 2013-17" },
+  { label: "UG 2014-18" },
+  { label: "UG 2015-19" },
+  { label: "UG 2016-20" },
+  { label: "UG 2017-21" },
+  { label: "UG 2018-22" },
+  { label: "UG 2019-23" },
+  { label: "UG 2020-24" },
+  { label: "UG 2021-25" },
+  { label: "UG 2022-26" },
+  { label: "PG 2015-17" },
+  { label: "PG 2016-18" },
+  { label: "PG 2017-19" },
+  { label: "PG 2018-20" },
+  { label: "PG 2019-21" },
+  { label: "PG 2020-22" },
+  { label: "PG 2021-23" },
+  { label: "PG 2022-24" },
+  { label: "PHD 2013-18" },
+  { label: "PHD 2014-19" },
+  { label: "PHD 2015-20" },
+  { label: "PHD 2016-21" },
+  { label: "PHD 2017-22" },
+  { label: "PHD 2018-23" },
+  { label: "PHD 2019-24" },
+  { label: "PHD 2020-25" },
+
+]
