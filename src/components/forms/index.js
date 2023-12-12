@@ -1,4 +1,4 @@
-import InputField from "./InputField/InputField";
+import TextField from "./TextField/TextField";
 import Button from "./Button/Button";
 
-export { InputField, Button }
+export { TextField, Button }
