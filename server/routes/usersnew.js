@@ -106,7 +106,9 @@ users.route('/users/login').post((req, res) => {
 
               if (isMatch) {
                 const token = jwt.sign({ id: user.id_text }, SECRET, { expiresIn: expiresInMin * 60 });
-                res.cookie('auth', token, { maxAge: expiresInMin * 60 * 1000 }).json({ message: 'User logged in', error: false });
+                const userObj = { id: user.id_text, email: user.email, admin: user.admin };
+
+                res.cookie('auth', token, { maxAge: expiresInMin * 60 * 1000 }).json({ message: 'User logged in', user: userObj, error: false });
               } else {
                 res.status(400).json({ message: 'Invalid credentials', error: true });
               }
@@ -153,10 +155,14 @@ users.route('/users/profile').post((req, res) => {
       if (profileResults.length === 0)
         return res.status(200).json({
           message: 'Profile incomplete',
-          profile: { email: results[0].email, isProfileIncomplete: true },
-          error: false
+          error: false,
+          user: { email: results[0].email, isProfileIncomplete: true, admin: results[0].admin },
         });
-      res.status(200).json({ message: 'Profile found', error: false, profile: profileResults[0] });
+      res.status(200).json({
+        message: 'Profile found',
+        error: false,
+        user: { ...profileResults[0], isProfileIncomplete: false, admin: results[0].admin },
+      });
     });
   }).catch(err => {
     res.status(400).json({ message: `Invalid jwt: ${err}`, error: true });

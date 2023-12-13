@@ -38,7 +38,7 @@ const Navbar = () => {
           </button>
         </div>
         <ul className={styles['nav-list']}>
-          {links.map(( link, index) => <NavLi key={index} {...link} />)}
+          {links.map((link, index) => <NavLi key={index} {...link} />)}
         </ul>
       </div>
     </nav>

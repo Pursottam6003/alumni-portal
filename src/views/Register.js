@@ -1,4 +1,4 @@
-import SchemaForm from "../components/forms/SchemaForm/SchemaForm";
+import { SchemaForm } from "../components/forms/";
 import { Header } from "../components/layout";
 
 const Register = () => {
