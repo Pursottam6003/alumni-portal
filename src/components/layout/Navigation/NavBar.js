@@ -118,7 +118,7 @@ const Navbar = () => {
               <MenuIcon />
             </button>
             {loading ? (
-              <div className={styles['spinner']} aria-level='Loading auth status'></div>
+              <div className={styles['spinner']} aria-label='Loading auth status'></div>
             ) : (
               <button id={styles.userToggle} type='button' aria-label='Profile' className={styles['profile-btn']} onClick={toggleUserNav}>
                 <ProfileIcon />
@@ -142,7 +142,7 @@ const Navbar = () => {
             )}
             <hr />
             <ul className={styles['mobile-nav-list']}>
-              {userLinks.filter(l => !l.noAuth == !!user).map((link) => <NavLi key={link.href} {...link} />)}
+              {userLinks.filter(l => !l.noAuth === !!user).map((link) => <NavLi key={link.href} {...link} />)}
             </ul>
           </div>
 
