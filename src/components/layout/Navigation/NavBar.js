@@ -85,7 +85,7 @@ const NavLi = ({ label, href, action = null }) => {
 
 
 const Navbar = () => {
-  const { user, logout } = useUser();
+  const { loading, user, logout } = useUser();
 
   const links = [
     { label: 'Home', href: '/' },
@@ -117,9 +117,13 @@ const Navbar = () => {
             <button id={styles.menuToggle} type='button' aria-label='Menu' className={styles['menu-btn']} onClick={toggleMobileNav}>
               <MenuIcon />
             </button>
-            <button id={styles.userToggle} type='button' aria-label='Profile' className={styles['profile-btn']} onClick={toggleUserNav}>
-              <ProfileIcon />
-            </button>
+            {loading ? (
+              <div className={styles['spinner']} aria-level='Loading auth status'></div>
+            ) : (
+              <button id={styles.userToggle} type='button' aria-label='Profile' className={styles['profile-btn']} onClick={toggleUserNav}>
+                <ProfileIcon />
+              </button>
+            )}
           </div>
         </div>
       </div>

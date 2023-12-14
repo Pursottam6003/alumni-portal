@@ -6,15 +6,16 @@ import UserProvider from "./contexts/UserContext";
 function App() {
   return (
     <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/update-profile" element={<Update_Profile />} />
-
-        </Routes>
-      </Layout>
+      <UserProvider>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/update-profile" element={<Update_Profile />} />
+          </Routes>
+        </Layout>
+      </UserProvider>
     </BrowserRouter>
   );
 }
