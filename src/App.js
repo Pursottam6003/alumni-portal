@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home, Login, Register, Update_Profile } from "./views";
 import Layout from "./components/layout";
+import UserProvider from "./contexts/UserContext";
 
 function App() {
   return (
