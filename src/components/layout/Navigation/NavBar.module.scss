@@ -1,6 +1,7 @@
 .navbar {
   position: relative;
   z-index: 9999;
+
   .nav-container {
     display: flex;
     justify-content: space-between;
@@ -10,20 +11,32 @@
     padding-top: 1rem;
     padding-bottom: 1rem;
 
-    > img {
+    img {
       height: 44px;
       width: auto;
     }
 
     @media screen and (max-width: 768px) {
-      > img {
+      img {
         height: 32px;
       }
     }
   }
 
-  .mobile-nav-toggles {
-    display: none;
+  .nav-content {
+    display: flex;
+  }
+
+  .nav-toggles {
+    display: flex;
+    gap: 1rem;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 2rem;
+
+    #menuToggle {
+      display: none;
+    }
 
     button {
       background-color: transparent;
@@ -40,10 +53,9 @@
     }
 
     @media screen and (max-width: 768px) {
-      display: flex;
-      gap: 1rem;
-      flex-direction: row;
-      align-items: center;
+      #menuToggle {
+        display: block;
+      }
     }
   }
 
@@ -90,7 +102,8 @@
             background-color: currentColor;
             transition: all 0.15s ease-out;
           }
-          &:hover::after, &.active::after {
+          &:hover::after,
+          &.active::after {
             height: 100%;
           }
           &.active {
@@ -109,7 +122,6 @@
     opacity: 1;
     transform: translateY(0) scaleY(1);
   }
-
 
   .nav-list {
     display: flex;
