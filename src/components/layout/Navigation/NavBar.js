@@ -125,23 +125,27 @@ const Navbar = () => {
               </button>
             )}
           </div>
-        </div>
-      </div>
-      <div className={cx(styles['mobile-nav'])}>
-        <div className={styles['mobile-nav-container']}>
-          <hr />
-          <ul className={styles['mobile-nav-list']}>
-            {links.map((link, index) => <NavLi key={index} {...link} />)}
-          </ul>
-        </div>
-      </div>
 
-      <div id='userNav' className={cx(styles['mobile-nav'])}>
-        <div className={styles['mobile-nav-container']}>
-          <hr />
-          <ul className={styles['mobile-nav-list']}>
-            {userLinks.filter(l => !l.noAuth == !!user).map((link) => <NavLi key={link.href} {...link} />)}
-          </ul>
+          <div className={cx(styles['mobile-nav'], 'container')}>
+            <hr />
+            <ul className={styles['mobile-nav-list']}>
+              {links.map((link, index) => <NavLi key={index} {...link} />)}
+            </ul>
+          </div>
+
+          <div className={cx(styles['mobile-nav'], 'container')} id='userNav'>
+            {user && (
+              <div className={styles['user-info']}>
+                {/* <div className={styles['user-name']}>{user.displayName}</div> */}
+                <div className={styles['user-email']}>{user.email}</div>
+              </div>
+            )}
+            <hr />
+            <ul className={styles['mobile-nav-list']}>
+              {userLinks.filter(l => !l.noAuth == !!user).map((link) => <NavLi key={link.href} {...link} />)}
+            </ul>
+          </div>
+
         </div>
       </div>
     </nav>
