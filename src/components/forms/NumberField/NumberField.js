@@ -2,19 +2,22 @@ import styles from '../Form.module.scss'
 import cx from 'classnames'
 import { forwardRef } from 'react'
 
-const TextField = forwardRef(({ pattern = '.*', onChange, onBlur, name, label, type = 'text', value }, ref) => {
-  if (!['text', 'email', 'password'].includes(type)) {
-    return <p>Invalid text type</p>
+const NumberField = forwardRef(({ onChange, onBlur, name, label, value, min=null, max=null }, ref) => {
+  if (typeof min !== 'number' && typeof max !== 'number') {
+    return <p>Invalid range</p>
   }
 
+  const range = {}
+  if (min) range.min = min
+  if (max) range.max = max
   return (
     <div className={styles['form-field']}>
       <label htmlFor={name} data-name={label} className={cx(
         { [styles.filled]: value?.length > 0 },
       )}>
         <input
-          pattern={pattern}
-          type={type}
+          type="number"
+          {...range}
           ref={ref}
           name={name}
           onChange={onChange}
@@ -25,4 +28,4 @@ const TextField = forwardRef(({ pattern = '.*', onChange, onBlur, name, label, t
   )
 })
 
-export default TextField;
+export default NumberField;

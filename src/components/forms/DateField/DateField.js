@@ -2,18 +2,17 @@ import styles from '../Form.module.scss'
 import cx from 'classnames'
 import { forwardRef } from 'react'
 
-const TextField = forwardRef(({ pattern = '.*', onChange, onBlur, name, label, type = 'text', value }, ref) => {
-  if (!['text', 'email', 'password'].includes(type)) {
-    return <p>Invalid text type</p>
+const DateField = forwardRef(({ onChange, onBlur, name, label, type="date" }, ref) => {
+  if (!['date', 'month', 'week', 'time', 'datetime-local'].includes(type)) {
+    return <p>Invalid date type</p>
   }
 
   return (
     <div className={styles['form-field']}>
       <label htmlFor={name} data-name={label} className={cx(
-        { [styles.filled]: value?.length > 0 },
+        { [styles.filled]: true },
       )}>
         <input
-          pattern={pattern}
           type={type}
           ref={ref}
           name={name}
@@ -25,4 +24,4 @@ const TextField = forwardRef(({ pattern = '.*', onChange, onBlur, name, label, t
   )
 })
 
-export default TextField;
+export default DateField;

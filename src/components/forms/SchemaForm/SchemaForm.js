@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { TextField, Button } from '../';
+import { TextField, Select, Button } from '../';
 
 const SchemaForm = ({ schema, onSubmit }) => {
   const { register, handleSubmit, watch } = useForm();
@@ -14,6 +14,14 @@ const SchemaForm = ({ schema, onSubmit }) => {
             label={field.label}
             {...register(field.name, { required: field.required })}
             value={watch(field.name)}
+          />
+        } else if (field.type === 'select') {
+          return <Select
+            key={index}
+            label={field.label}
+            name={field.name}
+            options={field.options}
+            {...register(field.name, { required: field.required })}
           />
         } else {
           return <p>Invalid field</p>
