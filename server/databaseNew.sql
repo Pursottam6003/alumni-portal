@@ -25,10 +25,9 @@ CREATE TABLE users (
 );
 
 CREATE TABLE profile (
-    -- profile_Id varchar(50),
     userId varchar(50),
     
-    sex SET('male', 'female', 'others') DEFAULT 'male'
+    sex SET('male', 'female', 'others') DEFAULT 'male',
 
     firstName varchar(64) NOT NULL,
     lastName varchar(64),

@@ -11,6 +11,12 @@ const logout = () => fetch('/users/logout', {
   headers: { 'Content-Type': 'application/json' },
 }).then(res => res.json()).catch(err => console.log(err))
 
+const signup = (user) => fetch('/users/register', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(user)
+})
+
 const checkAuth = () => fetch('/users/auth', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
@@ -21,4 +27,4 @@ const profile = () => fetch('/users/profile', {
   headers: { 'Content-Type': 'application/json' },
 }).then(res => res.json()).catch(err => console.log(err))
 
-export { login as loginApi, logout as logoutApi, checkAuth as checkAuthApi, profile as profileApi };
+export { login as loginApi, logout as logoutApi, checkAuth as checkAuthApi, profile as profileApi, signup as signupApi };

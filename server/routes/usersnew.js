@@ -156,7 +156,7 @@ users.route('/users/profile').post((req, res) => {
         return res.status(200).json({
           message: 'Profile incomplete',
           error: false,
-          user: { email: results[0].email, isProfileIncomplete: true, admin: results[0].admin },
+          user: { id: results[0].id_text, email: results[0].email, isProfileIncomplete: true, admin: results[0].admin },
         });
       res.status(200).json({
         message: 'Profile found',

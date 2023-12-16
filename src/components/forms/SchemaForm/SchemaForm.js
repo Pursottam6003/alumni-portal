@@ -38,10 +38,8 @@ const SchemaForm = ({ schema, onSubmit, actions = null }) => {
             {...register(field.name, { required: field.required })}
             value={watch(field.name)}
           />
-        }
-
-        else {
-          return <p>Invalid field</p>
+        } else {
+          return <p key={index}>Invalid field</p>
         }
       })}
       {actions !== null ? actions : <Button type="submit" className='primary'>Submit</Button>}
