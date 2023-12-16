@@ -17,22 +17,20 @@ const UpdateProfile = () => {
 
                 <SchemaForm schema={[
                     { name: 'firstname', label: 'Full Name', type: 'text', required: true },
-                    { name: 'dob', label: 'Date of Birth', type: 'text', required: true },
+                    { name: 'dob', label: 'Date of Birth', type: 'date', required: true },
                     { name: 'category', label: 'Category', type: 'text', required: true },
                     { name: 'nationality', label: 'Nationalality', type: 'text', required: true },
                     { name: 'religion', label: 'Religion', type: 'text', required: true },
                     { name: 'address', label: 'Address', type: 'text', required: true },
-                    { name: 'pincode', label: 'Pincode', type: 'text', required: true },
+                    { name: 'pincode', label: 'Pincode', type: 'number', required: true },
                     { name: 'state', label: 'State/Province/Region', type: 'text', required: true },
                     { name: 'city', label: 'City', type: 'text', required: true },
                     { name: 'country', label: 'Country', type: 'text', required: true },
                     { name: 'phone', label: 'Phone', type: 'text', required: true },
                     { name: 'alternatephone', label: 'Alternate Phone', type: 'text', required: true },
-                    { name: 'email', label: 'Email', type: 'text', required: true },
+                    { name: 'email', label: 'Email', type: 'email', required: true },
                     { name: 'linkedin', label: 'Linkedin', type: 'text', required: true },
                     { name: 'github', label: 'Github', type: 'text', required: true },
-
-
                 ]} onSubmit={onSubmit} />
             </div>
         </>

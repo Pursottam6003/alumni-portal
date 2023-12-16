@@ -43,9 +43,11 @@
 
   label.filled::before,
   label:focus-within::before {
-    color: var(--primary);
     font-size: 0.75rem;
-    transform: translate3d(0, -210%, 0);
+    transform: translate3d(0, -220%, 0);
+  }
+  label:focus-within::before {
+    color: var(--primary);
   }
 
   option {

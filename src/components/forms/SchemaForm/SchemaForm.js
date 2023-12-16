@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
-import { TextField, Select, Button } from '../';
+import { TextField, Select, Button, DateField, NumberField } from '../';
 
-const SchemaForm = ({ schema, onSubmit }) => {
+const SchemaForm = ({ schema, onSubmit, actions = null }) => {
   const { register, handleSubmit, watch } = useForm();
 
   return (
@@ -23,11 +23,28 @@ const SchemaForm = ({ schema, onSubmit }) => {
             options={field.options}
             {...register(field.name, { required: field.required })}
           />
-        } else {
+        } else if (field.type === 'date') {
+          return <DateField
+            key={index}
+            label={field.label}
+            name={field.name}
+            {...register(field.name, { required: field.required })}
+            value={watch(field.name)}
+          />
+        } else if (field.type === 'number') {
+          return <NumberField
+            key={index}
+            label={field.label}
+            {...register(field.name, { required: field.required })}
+            value={watch(field.name)}
+          />
+        }
+
+        else {
           return <p>Invalid field</p>
         }
       })}
-      <Button type="submit" className='primary'>Submit</Button>
+      {actions !== null ? actions : <Button type="submit" className='primary'>Submit</Button>}
     </form>
   )
 }

@@ -2,8 +2,8 @@ import styles from '../Form.module.scss'
 import cx from 'classnames'
 import { forwardRef } from 'react'
 
-const NumberField = forwardRef(({ onChange, onBlur, name, label, value, min=null, max=null }, ref) => {
-  if (typeof min !== 'number' && typeof max !== 'number') {
+const NumberField = forwardRef(({ onChange, onBlur, name, label, value, min = null, max = null }, ref) => {
+  if ((min && typeof min !== 'number') || (max && typeof max !== 'number')) {
     return <p>Invalid range</p>
   }
 
