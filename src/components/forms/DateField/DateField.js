@@ -2,14 +2,14 @@ import styles from '../Form.module.scss'
 import cx from 'classnames'
 import { forwardRef } from 'react'
 
-const DateField = forwardRef(({ onChange, onBlur, name, label, type="date" }, ref) => {
+const DateField = forwardRef(({ onChange, onBlur, name, label, type="date", required=false }, ref) => {
   if (!['date', 'month', 'week', 'time', 'datetime-local'].includes(type)) {
     return <p>Invalid date type</p>
   }
 
   return (
     <div className={styles['form-field']}>
-      <label htmlFor={name} data-name={label} className={cx(
+      <label htmlFor={name} data-name={`${label}${required ? '' : ' (optional)'}`} className={cx(
         { [styles.filled]: true },
       )}>
         <input

@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { TextField, Select, Button, DateField, NumberField } from '../';
+import { TextField, Select, Radio, Button, DateField, NumberField } from '../';
 
 const SchemaForm = ({ schema, onSubmit, actions = null }) => {
   const { register, handleSubmit, watch } = useForm();
@@ -12,6 +12,7 @@ const SchemaForm = ({ schema, onSubmit, actions = null }) => {
             key={index}
             type={field.type}
             label={field.label}
+            required={field.required}
             {...register(field.name, { required: field.required })}
             value={watch(field.name)}
           />
@@ -19,6 +20,7 @@ const SchemaForm = ({ schema, onSubmit, actions = null }) => {
           return <Select
             key={index}
             label={field.label}
+            required={field.required}
             name={field.name}
             options={field.options}
             {...register(field.name, { required: field.required })}
@@ -29,6 +31,7 @@ const SchemaForm = ({ schema, onSubmit, actions = null }) => {
             label={field.label}
             name={field.name}
             {...register(field.name, { required: field.required })}
+            required={field.required}
             value={watch(field.name)}
           />
         } else if (field.type === 'number') {
@@ -36,7 +39,16 @@ const SchemaForm = ({ schema, onSubmit, actions = null }) => {
             key={index}
             label={field.label}
             {...register(field.name, { required: field.required })}
+            required={field.required}
             value={watch(field.name)}
+          />
+        } else if (field.type === 'radio') {
+          return <Radio
+            key={index}
+            label={field.label}
+            {...register(field.name, { required: field.required })}
+            required={field.required}
+            options={field.options}
           />
         } else {
           return <p key={index}>Invalid field</p>

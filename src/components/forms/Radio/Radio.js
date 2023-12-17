@@ -1,13 +1,13 @@
 import { forwardRef } from "react"
 import styles from '../Form.module.scss'
 
-const Radio = forwardRef(({ onChange, onBlur, name, label, options }, ref) => {
+const Radio = forwardRef(({ onChange, onBlur, name, label, options, required=false }, ref) => {
   return (
     !options
       ? <p>Invalid options array</p>
       : (
         <div className={styles['form-field']}>
-          <label htmlFor={name}>{label}</label>
+          <label htmlFor={name}>{`${label}${required ? '' : ' (optional)'}`}</label>
           <div className={styles['radio-group']}>
             {options.map(({ label, value }, index) => (<>
               <div key={index} className={styles['radio-option']}>
