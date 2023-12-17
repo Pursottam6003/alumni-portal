@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { TextField, Select, Radio, Button, DateField, NumberField } from '../';
+import styles from '../Form.module.scss'
 
 const SchemaForm = ({ schema, onSubmit, actions = null }) => {
   const { register, handleSubmit, watch } = useForm();
@@ -50,6 +51,8 @@ const SchemaForm = ({ schema, onSubmit, actions = null }) => {
             required={field.required}
             options={field.options}
           />
+        } else if (field.type === 'section') {
+          return <h3 className={styles['section-title']} key={index}>{field.label}</h3>
         } else {
           return <p key={index}>Invalid field</p>
         }

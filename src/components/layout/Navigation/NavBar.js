@@ -83,7 +83,6 @@ const NavLi = ({ label, href, action = null }) => {
   )
 }
 
-
 const Navbar = () => {
   const { loading, user, logout } = useUser();
 
@@ -96,10 +95,9 @@ const Navbar = () => {
     { label: 'Login', href: '/login', noAuth: true },
     { label: 'Register', href: '/register', noAuth: true },
     { label: 'Membership registration', href: '/membership-registration' },
-    { label: 'Profile', href: '/update-profile' },
+    { label: 'Profile', href: '/profile' },
     { label: 'Logout', href: '/', action: logout },
   ]
-
 
   return (
     <nav className={styles.navbar}>

@@ -27,8 +27,9 @@ CREATE TABLE users (
 CREATE TABLE profile (
     userId varchar(50),
     
-    sex SET('male', 'female', 'others') DEFAULT 'male',
+    sex SET('male', 'female', 'others') NOT NULL,
 
+    title SET('mr', 'mrs', 'ms', 'dr') NOT NULL,
     firstName varchar(64) NOT NULL,
     lastName varchar(64),
     dob varchar(10) NOT NULL,
@@ -50,10 +51,12 @@ CREATE TABLE profile (
     linkedin varchar(50),
     github varchar(50),
     
-    courseCompleted  varchar(255) NOT NULL,
+    -- courseCompleted  varchar(255) NOT NULL,
+    courseCompleted SET('btech', 'mtech', 'phd') NOT NULL, -- should be 'course name' or simply 'course'
+
     registrationNo varchar(20) NOT NULL,
     rollNo varchar(16),
-    discipline  varchar(30),
+    discipline  varchar(255),
     gradYear varchar(10),
 
     sign  varchar(255) DEFAULT NULL,
@@ -65,7 +68,6 @@ CREATE TABLE profile (
 CREATE TABLE alumnilist (
     id varchar(50) NOT NULL,
     userId varchar(50) NOT NULL,
-    
 
     currentStatus SET('working', 'higher-education', 'preparing') DEFAULT 'preparing',
     preparingfor varchar(100) DEFAULT NULL,
@@ -77,6 +79,19 @@ CREATE TABLE alumnilist (
     ongoingCourseGradYear varchar(10),
 
     isApproved  SET('0', '-1', '1') DEFAULT '0',
+    PRIMARY KEY(id)
+);
+
+-- create table for storing experience (job and internship) details of users
+CREATE TABLE experience (
+    id varchar(50) NOT NULL,
+    userId varchar(50) NOT NULL,
+    type SET('job', 'internship') DEFAULT 'job',
+    organisation varchar(50) NOT NULL,
+    designation varchar(50) NOT NULL,
+    startDate varchar(10) NOT NULL,
+    endDate varchar(10) NOT NULL,
+    description varchar(255) NOT NULL,
     PRIMARY KEY(id)
 );
 

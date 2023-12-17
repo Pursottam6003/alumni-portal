@@ -13,12 +13,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/update-profile" element={(
-              <ProtectedComponent>
-                <UpdateProfile />
-              </ProtectedComponent>
-            )} />
-            <Route path="/admin" element={<Admin />} />
+            <Route path="/profile" element={<ProtectedComponent><UpdateProfile /></ProtectedComponent>} />
+            <Route path="/admin" element={<ProtectedComponent adminComponent><Admin /></ProtectedComponent>} />
           </Routes>
         </Layout>
       </UserProvider>

@@ -83,6 +83,47 @@ users.route('/users/register').post((req, res) => {
   }
 })
 
+users.route('/users/update-profile').post((req, res) => {
+  const token = req.cookies.auth;
+  findUserByToken(token).then(results => {
+    const body = req.body;
+    const profileKeys = [
+      "title", "firstName", "lastName", "dob", "sex", "category", "nationality", "religion", "address", "pincode", "state", "city", "country", "phone", "altPhone", "email", "altEmail", "linkedin", "github", "courseCompleted", "registrationNo", "rollNo", "discipline", "gradYear"
+    ]
+    let sql = 'INSERT INTO profile (userId, ';
+    let values = [results[0].id_text];
+
+    profileKeys.forEach(key => {
+      if (body[key]) {
+        sql += `${key}, `;
+        values.push(body[key]);
+      }
+    })
+
+    sql = sql.slice(0, -2) + ') VALUES (?, ';
+    profileKeys.forEach(key => {
+      if (body[key]) sql += '?, ';
+    })
+
+    sql = sql.slice(0, -2) + ') ON DUPLICATE KEY UPDATE ';
+
+    profileKeys.forEach(key => {
+      if (body[key]) {
+        sql += `${key} = ?, `;
+        values.push(body[key]);
+      }
+    })
+
+    sql = sql.slice(0, -2);
+    const db = getDb();
+    db.query(sql, values, (err, results) => {
+      if (err) throw err;
+      console.log(results);
+      res.status(200).json({ message: 'Profile updated', error: false });
+    })
+  })
+})
+
 users.route('/users/login').post((req, res) => {
   // get json web token from request cookies
   const token = req.cookies.auth;
@@ -92,34 +133,39 @@ users.route('/users/login').post((req, res) => {
       res.clearCookie('auth').json({ messge: 'User already logged in', error: true });
     })
     .catch(err => {
-      if (err === 'No jwt provided' || err === 'Invalid jwt') {
-        const { email, password } = req.body;
-        const db = getDb();
-        const sql = 'SELECT * FROM users WHERE email = ?';
-        db.query(sql, [email], (err, results) => {
-          if (err) throw err;
-
-          if (results.length > 0) {
-            const user = results[0];
-            bcrypt.compare(password, user.password, (err, isMatch) => {
-              if (err) throw err;
-
-              if (isMatch) {
-                const token = jwt.sign({ id: user.id_text }, SECRET, { expiresIn: expiresInMin * 60 });
-                const userObj = { id: user.id_text, email: user.email, admin: user.admin };
-
-                res.cookie('auth', token, { maxAge: expiresInMin * 60 * 1000 }).json({ message: 'User logged in', user: userObj, error: false });
-              } else {
-                res.status(400).json({ message: 'Invalid credentials', error: true });
-              }
-            });
-          } else {
-            res.status(400).json({ message: 'Invalid credentials', error: true });
-          }
-        });
-      } else {
-        res.status(400).json({ message: 'Invalid jwt', error: true });
+      if (!['No jwt provided', 'Invalid jwt'].includes(err)) {
+        return res.status(400).json({ message: `Invalid jwt: ${err}`, error: true });
       }
+
+      const { email, password } = req.body;
+      const db = getDb();
+      db.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
+        if (err) throw err;
+
+        if (results.length === 0)
+          return res.status(400).json({ message: 'Invalid credentials', error: true });
+
+        const user = results[0];
+        bcrypt.compare(password, user.password, (err, isMatch) => {
+          if (err) throw err;
+          if (!isMatch) return res.status(400).json({ message: 'Invalid credentials', error: true });
+
+          // check if profile exists
+          db.query('SELECT * FROM profile WHERE userId = ?', [user.id_text], (err, profileResults) => {
+            if (err) throw err;
+
+            const token = jwt.sign({ id: user.id_text }, SECRET, { expiresIn: expiresInMin * 60 });
+            let userObj = { id: user.id_text, email: user.email, admin: user.admin };
+
+            if (profileResults.length === 0)
+              userObj.isProfileIncomplete = true;
+            else
+              userObj = { ...userObj, ...profileResults[0] };
+
+            res.cookie('auth', token, { maxAge: expiresInMin * 60 * 1000 }).json({ message: 'User logged in', user: userObj, error: false });
+          });
+        });
+      });
     });
 })
 
@@ -158,6 +204,7 @@ users.route('/users/profile').post((req, res) => {
           error: false,
           user: { id: results[0].id_text, email: results[0].email, isProfileIncomplete: true, admin: results[0].admin },
         });
+
       res.status(200).json({
         message: 'Profile found',
         error: false,

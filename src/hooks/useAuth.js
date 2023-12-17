@@ -39,7 +39,7 @@ const useAuth = () => {
           }
         })
       }
-    }).finally(() => setLoading(false))
+    }).finally(() => setTimeout(() => {setLoading(false)}, 500))
   }
 
   useEffect(() => {
