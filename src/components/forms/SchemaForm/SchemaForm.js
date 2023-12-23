@@ -1,9 +1,22 @@
 import { useForm } from 'react-hook-form';
 import { TextField, Select, Radio, Button, DateField, NumberField } from '../';
 import styles from '../Form.module.scss'
+import { useEffect } from 'react';
 
-const SchemaForm = ({ schema, onSubmit, actions = null }) => {
-  const { register, handleSubmit, watch } = useForm();
+const SchemaForm = ({ schema, onSubmit, actions = null, loading = false, prefillData }) => {
+  const { register, handleSubmit, watch, setValue } = useForm();
+
+  useEffect(() => {
+    if (prefillData) {
+      Object.keys(prefillData).forEach(key => {
+        setValue(key, prefillData[key]);
+      })
+    }
+  }, [prefillData])
+
+  if (loading) {
+    return <p>Please wait...</p>
+  }
 
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)}>

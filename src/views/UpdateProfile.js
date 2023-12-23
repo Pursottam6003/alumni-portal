@@ -1,8 +1,38 @@
 import { Header } from "../components/layout";
 import SchemaForm from "../components/forms/SchemaForm/SchemaForm";
 import { useUser } from "../contexts/UserContext";
+import { useEffect, useState } from "react";
 
 const UpdateProfile = () => {
+  const [loading, setLoading] = useState(true);
+  const [prefillData, setPrefillData] = useState(null);
+
+  const prepopulate = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch('/users/profile', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-type': 'application/json'
+        }
+      })
+      const resJson = await res.json();
+      if (!resJson.error) {
+        setPrefillData(resJson.user);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    // prepopulate form with user data
+    prepopulate();
+  }, [])
+
   const onSubmit = (data) => {
     console.log(data)
     fetch('/users/update-profile', {
@@ -13,30 +43,33 @@ const UpdateProfile = () => {
         'Content-type': 'application/json'
       }
     }).then(res => res.json())
-    .then(resJson => {
-      if (resJson.success) {
-        // TODO: redirect to dashboard
-      }
-    })
-    .catch(err => console.log(err))
+      .then(resJson => {
+        if (resJson.success) {
+          // TODO: redirect to dashboard
+        }
+      })
+      .catch(err => console.log(err))
   };
 
   const { user } = useUser();
 
   return (<>
     <Header
-      pageHeading={user?.isProfileIncomplete ? 'Create Profile' : 'Update Profile'}
-      subHeading={`Fill in the details below to ${user?.isProfileIncomplete ? 'create' : 'update'} your profile.`}
+      pageHeading={user?.isProfileIncomplete ? 'Create Profile' : 'Profile'}
+      subHeading={user?.isProfileIncomplete
+        ? "Create your alumni profile by filling in personal, academic and professional details."
+        : "Fill in the details below to update your profile."
+      }
     />
     <div className="__page-content container">
-      <SchemaForm schema={[
+      <SchemaForm loading={loading} prefillData={prefillData} schema={[
         { type: 'section', label: 'Personal Details' },
         {
           name: 'title', label: 'Title', type: 'select', required: true, options: [
-            { value: 'Mr', label: 'Mr' },
-            { value: 'Mrs', label: 'Mrs' },
-            { value: 'Ms', label: 'Ms' },
-            { value: 'Dr', label: 'Dr' },
+            { value: 'mr', label: 'Mr' },
+            { value: 'mrs', label: 'Mrs' },
+            { value: 'ms', label: 'Ms' },
+            { value: 'dr', label: 'Dr' },
           ]
         },
         { name: 'firstName', label: 'First Name', type: 'text', required: true },
