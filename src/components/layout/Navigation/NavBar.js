@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom'
 import styles from './NavBar.module.scss'
 import cx from 'classnames'
-import { ReactComponent as MenuIcon } from '.././../../assets/hamburger.svg'
-import { ReactComponent as ProfileIcon } from '.././../../assets/profile.svg'
+// import { ReactComponent as MenuIcon } from '.././../../assets/hamburger.svg'
+import { Menu as MenuIcon, User as UserIcon } from 'iconoir-react'
 import { useUser } from '../../../contexts/UserContext'
 
 const toggleMobileNav = (e) => {
@@ -113,13 +113,13 @@ const Navbar = () => {
           </ul>
           <div className={styles['nav-toggles']}>
             <button id={styles.menuToggle} type='button' aria-label='Menu' className={styles['menu-btn']} onClick={toggleMobileNav}>
-              <MenuIcon />
+              <MenuIcon width={22} height={22} strokeWidth={2} />
             </button>
             {loading ? (
               <div className={styles['spinner']} aria-label='Loading auth status'></div>
             ) : (
               <button id={styles.userToggle} type='button' aria-label='Profile' className={styles['profile-btn']} onClick={toggleUserNav}>
-                <ProfileIcon />
+                <UserIcon width={22} height={22} strokeWidth={2} />
               </button>
             )}
           </div>
