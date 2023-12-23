@@ -2,12 +2,13 @@ import styles from '../Form.module.scss'
 import cx from 'classnames'
 import { forwardRef } from 'react'
 
-const TextField = forwardRef(({ pattern = '.*', onChange, onBlur, name, label, type = 'text', value, required=false }, ref) => {
+const TextField = forwardRef(({ pattern = '.*', onChange, onBlur, name, label, type = 'text', value, error = null, required = false }, ref) => {
   if (!['text', 'email', 'password'].includes(type)) {
     return <p>Invalid text type</p>
   }
 
   return (
+  <div className={styles['field-wrapper']}>
     <div className={styles['form-field']}>
       <label htmlFor={name} data-name={`${label}${required ? '' : ' (optional)'}`} className={cx(
         { [styles.filled]: value?.length > 0 },
@@ -22,6 +23,8 @@ const TextField = forwardRef(({ pattern = '.*', onChange, onBlur, name, label, t
         />
       </label>
     </div>
+    {error && <p className={styles['error']}>{error.message}</p>}
+  </div>
   )
 })
 

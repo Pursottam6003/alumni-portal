@@ -4,7 +4,7 @@ import styles from '../Form.module.scss'
 import { useEffect } from 'react';
 
 const SchemaForm = ({ schema, onSubmit, actions = null, loading = false, prefillData }) => {
-  const { register, handleSubmit, watch, setValue } = useForm();
+  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm();
 
   useEffect(() => {
     if (prefillData) {
@@ -13,6 +13,12 @@ const SchemaForm = ({ schema, onSubmit, actions = null, loading = false, prefill
       })
     }
   }, [prefillData])
+
+  useEffect(() => {
+    if (errors) {
+      console.log(errors);
+    }
+  }, [errors])
 
   if (loading) {
     return <p>Please wait...</p>
@@ -29,6 +35,7 @@ const SchemaForm = ({ schema, onSubmit, actions = null, loading = false, prefill
             required={field.required}
             {...register(field.name, { required: field.required })}
             value={watch(field.name)}
+            error={errors[field.name]}
           />
         } else if (field.type === 'select') {
           return <Select
@@ -37,6 +44,7 @@ const SchemaForm = ({ schema, onSubmit, actions = null, loading = false, prefill
             required={field.required}
             name={field.name}
             options={field.options}
+            error={errors[field.name]}
             {...register(field.name, { required: field.required })}
           />
         } else if (field.type === 'date') {
@@ -47,6 +55,7 @@ const SchemaForm = ({ schema, onSubmit, actions = null, loading = false, prefill
             {...register(field.name, { required: field.required })}
             required={field.required}
             value={watch(field.name)}
+            error={errors[field.name]}
           />
         } else if (field.type === 'number') {
           return <NumberField
@@ -55,6 +64,7 @@ const SchemaForm = ({ schema, onSubmit, actions = null, loading = false, prefill
             {...register(field.name, { required: field.required })}
             required={field.required}
             value={watch(field.name)}
+            error={errors[field.name]}
           />
         } else if (field.type === 'radio') {
           return <Radio
@@ -63,6 +73,7 @@ const SchemaForm = ({ schema, onSubmit, actions = null, loading = false, prefill
             {...register(field.name, { required: field.required })}
             required={field.required}
             options={field.options}
+            error={errors[field.name]}
           />
         } else if (field.type === 'section') {
           return <h3 className={styles['section-title']} key={index}>{field.label}</h3>
