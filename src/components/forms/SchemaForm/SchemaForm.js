@@ -14,12 +14,6 @@ const SchemaForm = ({ schema, onSubmit, actions = null, loading = false, prefill
     }
   }, [prefillData])
 
-  useEffect(() => {
-    if (errors) {
-      console.log(errors);
-    }
-  }, [errors])
-
   if (loading) {
     return <p>Please wait...</p>
   }

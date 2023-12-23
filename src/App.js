@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Home, Login, Register, UpdateProfile, Admin } from "./views";
 import Layout from "./components/layout";
 import UserProvider from "./contexts/UserContext";
 import ProtectedComponent from "./components/protectedComponent/ProtectedComponent";
+import { Home, Login, Register, Admin } from "./views";
+import Profile, { PersonalDetails, AcademicDetails, ProfessionalDetails } from "./views/profile";
 
 function App() {
   return (
@@ -13,7 +14,12 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/profile" element={<ProtectedComponent><UpdateProfile /></ProtectedComponent>} />
+            <Route path="/profile" element={<ProtectedComponent><Profile /></ProtectedComponent>}>
+              <Route path="" element={<PersonalDetails />} />
+              <Route path="academic" element={<AcademicDetails />} />
+              <Route path="professional" element={<ProfessionalDetails />} />
+              <Route path="*" element={<h1>TODO</h1>} />
+            </Route>
             <Route path="/admin" element={<ProtectedComponent adminComponent><Admin /></ProtectedComponent>} />
           </Routes>
         </Layout>
