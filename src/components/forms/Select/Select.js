@@ -3,7 +3,7 @@ import { forwardRef } from 'react'
 
 const Select = forwardRef(({ onChange, onBlur, name, label, options, required = false, error }, ref) => {
   return (
-    !options
+    !options || !Array.isArray(options)
       ? <p>Invalid options array</p>
       : (
         <div className={styles['field-wrapper']}>
@@ -16,11 +16,13 @@ const Select = forwardRef(({ onChange, onBlur, name, label, options, required = 
               ))}
             </select>
           </div>
-          {error && !error.length 
-          ? <p className={styles.error}>{error.message}</p> 
-          : error.map((err, index) => (
-            <p key={index} className={styles.error}>{err.message}</p>
-          ))}
+          {error && (
+            !error.length
+              ? <p className={styles.error}>{error.message}</p>
+              : error.map((err, index) => (
+                <p key={index} className={styles.error}>{err.message}</p>
+              ))
+          )}
         </div>
       )
   )
