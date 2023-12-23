@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./components/layout";
+import Layout, { Header } from "./components/layout";
 import UserProvider from "./contexts/UserContext";
 import ProtectedComponent from "./components/protectedComponent/ProtectedComponent";
 import { Home, Login, Register, Admin } from "./views";
@@ -21,6 +21,7 @@ function App() {
               <Route path="*" element={<h1>TODO</h1>} />
             </Route>
             <Route path="/admin" element={<ProtectedComponent adminComponent><Admin /></ProtectedComponent>} />
+            <Route path="*" element={<Header pageHeading="404" subHeading="Page not found" />} />
           </Routes>
         </Layout>
       </UserProvider>

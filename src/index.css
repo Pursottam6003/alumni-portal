@@ -10,6 +10,12 @@ html {
   --gutter-x: 3.75rem;
 }
 
+@media screen and (max-width: 768px) {
+  html {
+    --gutter-x: 2.2rem;
+  }
+}
+
 body {
   font-family: "Open Sans", serif;
 }
