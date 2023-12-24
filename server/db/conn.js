@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
 
-/** @type {import('mysql').Connection} */
+/** @type {import('mysql2').Connection} */
 var _db;
 
 // q: process.env not owrking
@@ -20,8 +20,14 @@ module.exports = {
       }
       _db = db;
       console.log('Connected to the MySQL server.');
+      callback();
     })
   },
 
-  getDb: () => _db
+  getDb: () => {
+    if (!_db) {
+      throw new Error('Database connection not established. Call connectToServer first.');
+    }
+    return _db;
+  }
 };
