@@ -47,6 +47,7 @@ const ProfileLayout = ({ children }) => {
     { name: 'Personal details', path: '/profile', Icon: UserIcon, },
     { name: 'Academic details', path: '/profile/academic', Icon: BookIcon, },
     { name: 'Professional details', path: '/profile/professional', Icon: SuitcaseIcon, },
+
   ]
 
   const accountLinks = [
