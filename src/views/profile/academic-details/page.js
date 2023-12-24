@@ -1,6 +1,6 @@
 import { SchemaForm, Button } from "../../../components/forms"
 
-const PersonalDetails = () => {
+const AcademicDetails = () => {
   const onSubmit = (data) => {
     console.log(data)
     fetch('/users/update-profile', {
@@ -39,4 +39,4 @@ const PersonalDetails = () => {
   )
 }
 
-export default PersonalDetails;
+export default AcademicDetails;
