@@ -5,5 +5,6 @@ import Radio from "./Radio/Radio";
 import SchemaForm from "./SchemaForm/SchemaForm";
 import DateField from "./DateField/DateField";
 import Button from "./Button/Button";
+import ModelComponent from "./Model/ModelComponent";
 
-export { SchemaForm, TextField, NumberField, Select, Radio, DateField, Button }
+export { SchemaForm, TextField, NumberField, Select, Radio, DateField, Button, ModelComponent }

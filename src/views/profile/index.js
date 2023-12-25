@@ -6,10 +6,14 @@ import { Outlet } from "react-router";
 import PersonalDetails from "./personal-details/page";
 import AcademicDetails from "./academic-details/page";
 import ProfessionalDetails from "./professional-details/page";
+import { ModelComponent } from "../../components/forms";
+import ModalComponent from "../../components/forms/Model/ModelComponent";
 
 const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [prefillData, setPrefillData] = useState(null);
+  const [isProfileUpdated, setIsProfileUpdated] = useState(false);
+
 
   const prepopulate = async () => {
     try {
@@ -22,6 +26,7 @@ const Profile = () => {
       })
       const resJson = await res.json();
       if (!resJson.error) {
+        setIsProfileUpdated(true);
         setPrefillData(resJson.user);
       }
     } catch (err) {
@@ -56,6 +61,7 @@ const Profile = () => {
 
   const { user } = useUser();
 
+
   return (<>
     <Header
       pageHeading={user?.isProfileIncomplete ? 'Create Profile' : 'Profile'}
@@ -66,6 +72,9 @@ const Profile = () => {
     />
     <div className="__page-content container">
       <ProfileLayout>
+
+        {isProfileUpdated && <ModalComponent setIsProfileUpdated={setIsProfileUpdated} componentToRender={<Outlet />} />}
+
         <Outlet />
       </ProfileLayout>
     </div>
