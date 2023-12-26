@@ -12,7 +12,7 @@ const authenticate = (req, res, next) => {
     if (decoded.exp < Date.now() / 1000) throw new Error('Invalid jwt');
 
     // query for user
-    db.query('SELECT * FROM users WHERE id_text = ?', [decoded.id], (err, results) => {
+    db.query('SELECT * FROM users WHERE id = ?', [decoded.id], (err, results) => {
       if (err) throw err;
       if (results.length === 0) throw new Error('Invalid jwt');
       req.user = results[0];

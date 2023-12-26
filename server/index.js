@@ -27,6 +27,9 @@ app.listen(port, () => {
 
     // middlewares for media routes
     app.use('/media', require('./routes/media'));
+
+    // middlewares for error handling
+    app.use(require('./middlewares/error'));
   });
 });
 
