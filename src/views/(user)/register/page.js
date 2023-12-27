@@ -47,15 +47,19 @@ const Register = () => {
               message: 'Invalid email or @nitap.ac.in domain is not allowed' 
             } 
           })}
+          Icon={MailIcon}
           value={watch('email')} error={errors['email']} />
         <TextField type='password' required label='Password'
           {...register('password', { required: 'Password is required' })}
-          value={watch('password')} error={errors['password']} />
+          value={watch('password')} error={errors['password']} 
+          Icon={KeyIcon}
+          />
         <TextField type='password' required label='Confirm Password'
           {...register('confirmPassword', {
             required: 'Password is required',
             validate: (value) => value === watch('password') || 'Passwords do not match'
           })}
+          Icon={KeyIcon}
           value={watch('confirmPassword')} error={errors['confirmPassword']} />
         <div className={styles['actions']}>
           <Button disabled={loading} type='submit' className="btn primary" loading={loading}>Sign up</Button>

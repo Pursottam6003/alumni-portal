@@ -41,10 +41,10 @@ const Login = () => {
         </h1>
       </header>
       <form onSubmit={handleSubmit(onSubmit)} className={cx(styles['login-form'], styles['box'])}>
-        <TextField type='text' required label='Email'
+        <TextField type='text' required label='Email' Icon={MailIcon}
           {...register('email', { required: 'Email is required', pattern: { value: /\S+@\S+\.\S+/, message: 'Invalid email' } })}
           value={watch('email')} error={errors['email']} />
-        <TextField type='password' required label='Password'
+        <TextField type='password' required label='Password' Icon={KeyIcon}
           {...register('password', { required: 'Password is required' })}
           value={watch('password')} error={errors['password']} />
         <div className={styles['actions']}>

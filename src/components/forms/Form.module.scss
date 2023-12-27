@@ -10,10 +10,21 @@
 
 .form-field {
   position: relative;
+  --icon-size: 2rem;
 
   label {
     font-size: 0.8rem;
     color: #333;
+  }
+
+  svg.icon {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate3d(0, -50%, 0);
+    width: 1.4rem;
+    height: 1.4rem;
+    z-index: 1;
   }
 
   input,
@@ -38,6 +49,11 @@
     transform: translate3d(0, -50%, 0);
     font: inherit;
     transition: all 0.1s;
+    z-index: 1;
+  }
+
+  input.withIcon {
+    padding-left: var(--icon-size);
   }
 
   label::before {
@@ -48,11 +64,16 @@
     font: inherit;
     font-size: 1rem;
     transition: all 0.1s;
+    z-index: 1;
+  }
+  label.withIcon::before {
+    left: var(--icon-size);
   }
 
   label.filled::before,
   label:focus-within::before {
     font-size: 0.75rem;
+    left: 0;
     transform: translate3d(0, -220%, 0);
   }
   label:focus-within::before {
