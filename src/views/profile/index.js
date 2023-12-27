@@ -1,13 +1,13 @@
 import { Header } from "../../components/layout";
 import { useUser } from "../../contexts/UserContext";
 import { useEffect, useState } from "react";
-import ProfileLayout from "../../components/profile-layout";
+import Layout from "./layout";
 import { Outlet } from "react-router";
 import PersonalDetails from "./personal-details/page";
 import AcademicDetails from "./academic-details/page";
 import ProfessionalDetails from "./professional-details/page";
 import { ModelComponent } from "../../components/forms";
-import ModalComponent from "../../components/forms/Model/ModelComponent";
+import ModalComponent from "../../components/forms/Modal/ModalComponent";
 
 const Profile = () => {
   const [loading, setLoading] = useState(true);
@@ -71,12 +71,12 @@ const Profile = () => {
       }
     />
     <div className="__page-content container">
-      <ProfileLayout>
+      <Layout>
 
-        {isProfileUpdated && <ModalComponent setIsProfileUpdated={setIsProfileUpdated} componentToRender={<Outlet />} />}
+        {/* {isProfileUpdated && <ModalComponent setIsProfileUpdated={setIsProfileUpdated} componentToRender={<Outlet />} />} */}
 
         <Outlet />
-      </ProfileLayout>
+      </Layout>
     </div>
   </>)
 }

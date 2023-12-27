@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Model.module.scss"
+import styles from "./Modal.module.scss"
 import { WebWindowXmark as CloseModelcon } from 'iconoir-react'
 
 const ModalComponent = ({ setIsProfileUpdated, componentToRender }) => {

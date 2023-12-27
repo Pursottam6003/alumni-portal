@@ -1,4 +1,4 @@
-import styles from './ProfileLayout.module.scss'
+import styles from './Profile.module.scss'
 import { NavLink } from "react-router-dom"
 import { User as UserIcon, Suitcase as SuitcaseIcon, Book as BookIcon, Settings as SettingsIcon, LogOut as LogOutIcon } from 'iconoir-react'
 import cx from 'classnames'

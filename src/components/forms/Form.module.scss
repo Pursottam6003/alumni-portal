@@ -65,6 +65,7 @@
     font-size: 1rem;
     transition: all 0.1s;
     z-index: 1;
+    pointer-events: none;
   }
   label.withIcon::before {
     left: var(--icon-size);
