@@ -5,25 +5,6 @@ CREATE DATABASE alumniDatabase;
 -- use the database 
 USE alumniDatabase;
 
--- create tables for storing users information 
-
--- CREATE TABLE users (
---     id BINARY(16),
---     id_text varchar(36) generated always as
---         (insert(
---             insert(
---             insert(
---                 insert(hex(id),9,0,'-'),
---                 14,0,'-'),
---             19,0,'-'),
---             24,0,'-')
---         ) virtual,
---     email varchar(50) NOT NULL,
---     password varchar(100) NOT NULL,
---     role set('admin', 'user') default 'user',
---     primary key(id)
--- );
-
 CREATE TABLE users (
     id char(36) NOT NULL DEFAULT (UUID()),
     email varchar(50) NOT NULL UNIQUE,
@@ -50,7 +31,6 @@ CREATE TABLE profiles (
 
     phone varchar(15), 
     altPhone varchar(14),
-    -- email varchar(50) NOT NULL,  -- this column is already present in users table
     altEmail varchar(255),
     linkedin varchar(50),
     github varchar(50),
