@@ -2,25 +2,21 @@ import React from "react";
 import styles from "./Modal.module.scss"
 import { WebWindowXmark as CloseModelcon } from 'iconoir-react'
 
-const ModalComponent = ({ setIsProfileUpdated, componentToRender }) => {
-    return (
-        <>
-            <div className={styles.darkBG} onClick={() => setIsProfileUpdated(false)} />
-            <div className={styles.centered}>
-                <div className={styles.modal}>
-                    <div className={styles.modalHeader}>
-                        <h6 className={styles.heading}>You have already responded! Please update your details if needed</h6> {/* this is not working for getting the label of form*/}
-                    </div>
-                    <button className={styles.closeBtn} onClick={() => setIsProfileUpdated(false)}>
-                        <CloseModelcon />
-                    </button>
-                    <div className={styles.modalContent}>
-                        {componentToRender}
-                    </div>
-                </div>
-            </div>
-        </>
-    )
+const ModalComponent = ({ isOpen=false, setIsOpen, children }) => {
+  return (
+    isOpen && (<div className={styles.darkBG} onClick={() => setIsOpen(false)}>
+      <div className={styles.centered}>
+        <div className={styles.modal}>
+          <button className={styles.closeBtn} onClick={() => setIsOpen(false)}>
+            <CloseModelcon />
+          </button>
+          <div className={styles.modalContent}>
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>)
+  )
 };
 
 export default ModalComponent;

@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { EditPencil } from 'iconoir-react';
 import { dataValueLookup } from '../../../utils/data';
 import ModalComponent from '../../../components/forms/Modal/ModalComponent';
+import { useEffect, useState } from 'react';
 
 const PersonalDetailsForm = () => {
   const onSubmit = (data) => {
@@ -77,6 +78,8 @@ const PersonalDetailsForm = () => {
 }
 
 const PersonalDetails = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const profileDetails = {
     'title': 'mr',
     'firstName': 'John',
@@ -104,7 +107,7 @@ const PersonalDetails = () => {
   return (<>
     <section className={cx(styles.box, styles['basic-info-wrapper'])}>
       <div className={styles['actions']}>
-        <Button>
+        <Button onClick={() => setIsModalOpen(true)}>
           <EditPencil />Edit
         </Button>
       </div>
@@ -197,6 +200,9 @@ const PersonalDetails = () => {
         </div>
       </div>
     </section>
+    <ModalComponent isOpen={isModalOpen} setIsOpen={(val) => {setIsModalOpen(val)}}>
+      <PersonalDetailsForm />
+    </ModalComponent>
   </>)
 }
 

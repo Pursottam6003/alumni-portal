@@ -1,29 +1,23 @@
 .darkBG {
     background-color: rgba(0, 0, 0, 0.2);
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    position: absolute;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    padding: 4rem;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .centered {
-
     width: 650px;
-    padding: 10px;
-    height: 600px;
+    margin: auto;
     scroll-behavior: smooth;
-    position: absolute;
-    background: #d4e7d4;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    z-index: 1;
+    overflow-y: auto;
+    height: 100%;
 }
-
-
-
 
 .modalHeader {
     height: 50px;
@@ -36,7 +30,6 @@
 
 .heading {
     margin: 0;
-    padding: 10px;
     color: white;
     font-weight: 500;
     font-size: 12px;
@@ -44,10 +37,8 @@
 }
 
 .modalContent {
-    padding: 10px;
     font-size: 14px;
     color: #2c3e50;
-    text-align: center;
 }
 
 .modalActions {
