@@ -66,7 +66,7 @@ alumni.route('/alumni/register').post(upload.fields([
   const token = req.cookies.auth;
   findUserByToken(token).then(results => {
     if (results.length === 0) return res.status(400).json('Invalid jwt');
-    const user_id = results[0].id_text;
+    const user_id = results[0].id;
 
     const db = getDb();
 
@@ -132,7 +132,7 @@ alumni.route('/alumni/prepopulate').post((req, res) => {
   const token = req.cookies.auth;
   findUserByToken(token).then(results => {
     if (results.length === 0) return res.status(400).json('Invalid jwt');
-    const user_id = results[0].id_text;
+    const user_id = results[0].id;
 
     const db = getDb();
     db.query('SELECT * FROM alumnilist WHERE userId=?', [user_id], (err, result) => {

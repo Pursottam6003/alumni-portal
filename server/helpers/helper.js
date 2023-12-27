@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const SECRET = 'secret'
+const SECRET = process.env.JWT_SECRET || 'secret';
 const getDb = require('../db/conn').getDb;
 
 const findUserByToken = (token) => new Promise((resolve, reject) => {
@@ -15,7 +15,7 @@ const findUserByToken = (token) => new Promise((resolve, reject) => {
 
     // if the token is valid, then query the database for the user
     const db = getDb();
-    const sql = 'SELECT * FROM users WHERE id_text = ?';
+    const sql = 'SELECT * FROM users WHERE id = ?';
     db.query(sql, [decoded.id], (err, results) => {
       if (err) reject(err);
       if (results.length === 0) reject('Invalid jwt');
@@ -24,4 +24,4 @@ const findUserByToken = (token) => new Promise((resolve, reject) => {
   });
 });
 
-module.exports = { findUserByToken, SECRET: SECRET };
+module.exports = { findUserByToken, SECRET };

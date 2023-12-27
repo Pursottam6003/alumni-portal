@@ -5,34 +5,21 @@ CREATE DATABASE alumniDatabase;
 -- use the database 
 USE alumniDatabase;
 
--- create tables for storing users information 
-
 CREATE TABLE users (
-    id BINARY(16),
-    id_text varchar(36) generated always as
-        (insert(
-            insert(
-            insert(
-                insert(hex(id),9,0,'-'),
-                14,0,'-'),
-            19,0,'-'),
-            24,0,'-')
-        ) virtual,
-    email varchar(50) NOT NULL,
+    id char(36) NOT NULL DEFAULT (UUID()),
+    email varchar(50) NOT NULL UNIQUE,
     password varchar(100) NOT NULL,
-    admin BOOLEAN DEFAULT false,
-    primary key(id) 
+    role set('admin', 'user') default 'user',
+    primary key(id)
 );
 
-CREATE TABLE profile (
-    userId varchar(50),
-    
-    sex SET('male', 'female', 'others') NOT NULL,
-
+CREATE TABLE profiles (
+    userId char(36) NOT NULL,    
     title SET('mr', 'mrs', 'ms', 'dr') NOT NULL,
     firstName varchar(64) NOT NULL,
     lastName varchar(64),
     dob varchar(10) NOT NULL,
+    sex SET('male', 'female', 'others') NOT NULL,
     category  varchar(10),
     nationality varchar(15) NOT NULL,
     religion varchar(16),
@@ -44,56 +31,66 @@ CREATE TABLE profile (
 
     phone varchar(15), 
     altPhone varchar(14),
-
-    email varchar(50) NOT NULL,
     altEmail varchar(255),
-    
     linkedin varchar(50),
     github varchar(50),
-    
-    -- courseCompleted  varchar(255) NOT NULL,
-    courseCompleted SET('btech', 'mtech', 'phd') NOT NULL, -- should be 'course name' or simply 'course'
 
     registrationNo varchar(20) NOT NULL,
     rollNo varchar(16),
-    discipline  varchar(255),
-    gradYear varchar(10),
 
     sign  varchar(255) DEFAULT NULL,
     passport varchar(255) DEFAULT NULL,
 
-    PRIMARY KEY(userId)
+    PRIMARY KEY(userId),
+    FOREIGN KEY(userId) REFERENCES users(id)
 );
 
-CREATE TABLE alumnilist (
+-- create table for storing academics details of users, having foreign key as userId from profile table
+CREATE TABLE academics (
     id varchar(50) NOT NULL,
-    userId varchar(50) NOT NULL,
-
-    currentStatus SET('working', 'higher-education', 'preparing') DEFAULT 'preparing',
-    preparingfor varchar(100) DEFAULT NULL,
-    occupation varchar(30) DEFAULT NULL,
-    organisation varchar(50) DEFAULT NULL,
-    ctc decimal(10,2),
-    ongoingCourseDetails varchar(40),
-    ongoingCourseDiscipline varchar(40),
-    ongoingCourseGradYear varchar(10),
-
-    isApproved  SET('0', '-1', '1') DEFAULT '0',
-    PRIMARY KEY(id)
+    userId char(36) NOT NULL,
+    type SET('part-time', 'full-time') DEFAULT 'full-time',
+    institute varchar(50) NOT NULL,
+    degree varchar(50) NOT NULL,
+    discipline varchar(50) NOT NULL,
+    startDate varchar(10) NOT NULL,
+    endDate varchar(10) DEFAULT 'present',
+    description varchar(255) NOT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY(userId) REFERENCES profiles(userId)
 );
 
--- create table for storing experience (job and internship) details of users
-CREATE TABLE experience (
+-- create table for storing experience (job and internship) details of users having foreign key as userId from profile table
+CREATE TABLE experiences (
     id varchar(50) NOT NULL,
-    userId varchar(50) NOT NULL,
+    userId char(36) NOT NULL,
     type SET('job', 'internship') DEFAULT 'job',
     organisation varchar(50) NOT NULL,
     designation varchar(50) NOT NULL,
     startDate varchar(10) NOT NULL,
-    endDate varchar(10) NOT NULL,
+    endDate varchar(10) DEFAULT 'present',
+    ctc decimal(10,2),
     description varchar(255) NOT NULL,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    FOREIGN KEY(userId) REFERENCES profiles(userId)
 );
+
+-- CREATE TABLE alumnilist (
+--     id varchar(50) NOT NULL,
+--     userId varchar(50) NOT NULL,
+
+--     currentStatus SET('working', 'higher-education', 'preparing') DEFAULT 'preparing',
+--     preparingfor varchar(100) DEFAULT NULL,
+--     occupation varchar(30) DEFAULT NULL,
+--     organisation varchar(50) DEFAULT NULL,
+--     ctc decimal(10,2),
+--     ongoingCourseDetails varchar(40),
+--     ongoingCourseDiscipline varchar(40),
+--     ongoingCourseGradYear varchar(10),
+
+--     isApproved  SET('0', '-1', '1') DEFAULT '0',
+--     PRIMARY KEY(id)
+-- );
 
 CREATE TABLE organisationDetails 
 (

@@ -6,9 +6,11 @@ import { NavLink } from "react-router-dom";
 import styles from '../user.module.scss';
 import { useForm } from "react-hook-form";
 import cx from 'classnames';
+import { Xmark as XmarkIcon, WarningCircle as WarningIcon } from 'iconoir-react'
 
 const Login = () => {
   const { register, watch, formState: { errors }, handleSubmit } = useForm();
+  const [error, setError] = useState(null);
 
   const [loading, setLoading] = useState(false);
   const { login, user } = useUser();
@@ -16,19 +18,24 @@ const Login = () => {
 
   const onSubmit = (data) => {
     setLoading(true);
-    login(data).finally(() => setLoading(false));
+    login(data)
+      .catch(err => {
+        console.log(err);
+        setError(err.message);
+      })
+      .finally(() => setLoading(false))
   }
 
-  useEffect(() => {
-    if (loading || !user) return;
-    if (user.isProfileIncomplete) {
-      console.log('Profile incomplete');
-      history('/profile');
-    } else {
-      console.log('Profile complete, proceed for alumni registration');
-      history('/membership-registration');
-    }
-  }, [user, loading])
+  // useEffect(() => {
+  //   if (loading || !user) return;
+  //   if (user.isProfileIncomplete) {
+  //     console.log('Profile incomplete');
+  //     history('/profile');
+  //   } else {
+  //     console.log('Profile complete, proceed for alumni registration');
+  //     history('/membership-registration');
+  //   }
+  // }, [user, loading])
 
   return (<>
     <div className={cx("__page-content container", styles['login-container'])}>
@@ -40,6 +47,15 @@ const Login = () => {
           Sign in to NIT AP Alumni
         </h1>
       </header>
+      {error && (
+        <div className={cx(styles['box'], styles['error'])}>
+          <WarningIcon />
+          <p>{error}</p>
+          <button onClick={() => setError(null)}>
+            <XmarkIcon />
+          </button>
+        </div>
+      )}
       <form onSubmit={handleSubmit(onSubmit)} className={cx(styles['login-form'], styles['box'])}>
         <TextField type='text' required label='Email' Icon={MailIcon}
           {...register('email', { required: 'Email is required', pattern: { value: /\S+@\S+\.\S+/, message: 'Invalid email' } })}

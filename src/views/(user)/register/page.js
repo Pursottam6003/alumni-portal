@@ -6,9 +6,11 @@ import styles from '../user.module.scss';
 import { useForm } from "react-hook-form";
 import cx from 'classnames';
 import { signupApi } from "../../../utils/api";
+import { Xmark as XmarkIcon, WarningCircle as WarningIcon } from 'iconoir-react'
 
 const Register = () => {
   const { register, watch, formState: { errors }, handleSubmit } = useForm();
+  const [error, setError] = useState(null);
 
   const [loading, setLoading] = useState(false);
   const history = useNavigate();
@@ -16,11 +18,12 @@ const Register = () => {
   const onSubmit = (data) => {
     console.log(data)
     setLoading(true);
-    signupApi(data).then(res => res.json())
+    signupApi(data)
       .then(resJson => {
         if (resJson.success) {
-          history('/login');
+          return history('/login');
         }
+        setError(resJson.message);
       })
       .catch(err => {
         console.log(err);
@@ -38,14 +41,23 @@ const Register = () => {
           Sign up for NIT AP Alumni
         </h1>
       </header>
+      {error && (
+        <div className={cx(styles['box'], styles['error'])}>
+          <WarningIcon />
+          <p>{error}</p>
+          <button onClick={() => setError(null)}>
+            <XmarkIcon />
+          </button>
+        </div>
+      )}
       <form onSubmit={handleSubmit(onSubmit)} className={cx(styles['login-form'], styles['box'])}>
         <TextField type='text' required label='Personal Email'
-          {...register('email', { 
-            required: 'Email is required', 
-            pattern: { 
-              value: /^(?!.*@nitap\.ac\.in).*$/, 
-              message: 'Invalid email or @nitap.ac.in domain is not allowed' 
-            } 
+          {...register('email', {
+            required: 'Email is required',
+            pattern: {
+              value: /^(?!.*@nitap\.ac\.in).*$/,
+              message: 'Invalid email or @nitap.ac.in domain is not allowed'
+            }
           })}
           Icon={MailIcon}
           value={watch('email')} error={errors['email']} />

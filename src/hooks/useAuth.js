@@ -7,10 +7,18 @@ const useAuth = () => {
   const [loading, setLoading] = useState(true)
 
   const login = (user) => loginApi(user).then(data => {
-    console.log(data)
+    if (data.error) {
+      throw new Error(data.message)
+    }
     if (data.user !== null) {
       setUser(data.user)
       setAdmin(data.user.admin)
+    }
+  }).catch(err => {
+    if (err.message === 'Invalid credentials') {
+      throw new Error(err.message)
+    } else {
+      console.error(err)
     }
   })
 
@@ -39,7 +47,11 @@ const useAuth = () => {
           }
         })
       }
-    }).finally(() => setTimeout(() => {setLoading(false)}, 500))
+    })
+    .catch(err => {
+      console.log(err)
+    })
+    .finally(() => setTimeout(() => {setLoading(false)}, 500))
   }
 
   useEffect(() => {
