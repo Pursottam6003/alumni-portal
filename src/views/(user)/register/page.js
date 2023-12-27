@@ -6,7 +6,7 @@ import styles from '../user.module.scss';
 import { useForm } from "react-hook-form";
 import cx from 'classnames';
 import { signupApi } from "../../../utils/api";
-import { Xmark as XmarkIcon, WarningCircle as WarningIcon } from 'iconoir-react'
+import { Xmark as XmarkIcon, WarningCircle as WarningIcon, Mail as MailIcon, Key as KeyIcon } from 'iconoir-react'
 
 const Register = () => {
   const { register, watch, formState: { errors }, handleSubmit } = useForm();

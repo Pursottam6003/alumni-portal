@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 import styles from '../user.module.scss';
 import { useForm } from "react-hook-form";
 import cx from 'classnames';
-import { Xmark as XmarkIcon, WarningCircle as WarningIcon } from 'iconoir-react'
+import { Xmark as XmarkIcon, WarningCircle as WarningIcon, Mail as MailIcon, Key as KeyIcon } from 'iconoir-react'
 
 const Login = () => {
   const { register, watch, formState: { errors }, handleSubmit } = useForm();
@@ -26,16 +26,16 @@ const Login = () => {
       .finally(() => setLoading(false))
   }
 
-  // useEffect(() => {
-  //   if (loading || !user) return;
-  //   if (user.isProfileIncomplete) {
-  //     console.log('Profile incomplete');
-  //     history('/profile');
-  //   } else {
-  //     console.log('Profile complete, proceed for alumni registration');
-  //     history('/membership-registration');
-  //   }
-  // }, [user, loading])
+  useEffect(() => {
+    if (loading || !user) return;
+    if (user.isProfileIncomplete) {
+      console.log('Profile incomplete');
+      history('/profile');
+    } else {
+      console.log('Profile complete, proceed for alumni registration');
+      history('/membership-registration');
+    }
+  }, [user, loading])
 
   return (<>
     <div className={cx("__page-content container", styles['login-container'])}>
