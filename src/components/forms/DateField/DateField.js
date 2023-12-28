@@ -2,7 +2,7 @@ import styles from '../Form.module.scss'
 import cx from 'classnames'
 import { forwardRef } from 'react'
 
-const DateField = forwardRef(({ onChange, onBlur, name, label, type = "date", required = false, error }, ref) => {
+const DateField = forwardRef(({ onChange, onBlur, name, label, type = "date", required = false, disabled=false, error }, ref) => {
   if (!['date', 'month', 'week', 'time', 'datetime-local'].includes(type)) {
     return <p>Invalid date type</p>
   }
@@ -19,6 +19,7 @@ const DateField = forwardRef(({ onChange, onBlur, name, label, type = "date", re
             name={name}
             onChange={onChange}
             onBlur={onBlur}
+            disabled={disabled}
           />
         </label>
       </div>

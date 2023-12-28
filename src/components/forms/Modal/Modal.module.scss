@@ -1,117 +1,136 @@
 .darkBG {
-    background-color: rgba(0, 0, 0, 0.2);
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 10000;
-    padding: 4rem;
-    overflow-y: auto;
-    overflow-x: hidden;
+  background-color: rgba(255, 255, 255, 0.8);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+  padding: 4rem 1.5rem;
+}
+
+.darkBGOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  z-index: -1;
 }
 
 .centered {
-    width: 650px;
-    margin: auto;
-    scroll-behavior: smooth;
-    overflow-y: auto;
-    height: 100%;
+  width: 100%;
+  max-width: 650px;
+  max-height: 100%;
+  margin: auto;
+  scroll-behavior: smooth;
+  overflow-y: auto;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
 }
 
 .modalHeader {
-    height: 50px;
-    background: rgb(41, 37, 37);
-    overflow: hidden;
-    color: white;
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
+  background: white;
+  display: flex;
+  padding: 0.8rem 2rem;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px;
+
+  .modalTitle {
+    font-size: 1.1rem;
+    font-family: "Open sans", sans-serif;
+    font-weight: 600;
+  }
+
+  .closeBtn {
+    background: transparent;
+    border: none;
+    color: #555;
+    transition: all 0.15s ease;
+    width: fit-content;
+    aspect-ratio: 1/1;
+
+    &:hover {
+      color: #000;
+      cursor: pointer;
+    }
+    svg {
+      fill: currentColor;
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+    
+  }
+  @media screen and (max-width: 768px) {
+    padding: 0.5rem 1.2rem;
+  }
 }
 
 .heading {
-    margin: 0;
-    color: white;
-    font-weight: 500;
-    font-size: 12px;
-    text-align: center;
+  margin: 0;
+  color: white;
+  font-weight: 500;
+  font-size: 12px;
+  text-align: center;
 }
 
 .modalContent {
-    font-size: 14px;
-    color: #2c3e50;
+  :last-child {
+    margin-bottom: 0;
+  }
 }
 
 .modalActions {
-    position: absolute;
-    bottom: 2px;
-    margin-bottom: 10px;
-    width: 100%;
+  position: absolute;
+  bottom: 2px;
+  margin-bottom: 10px;
+  width: 100%;
 }
 
 .actionsContainer {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.closeBtn {
-    cursor: pointer;
-    font-weight: 500;
-    padding: 4px 8px;
-    border-radius: 8px;
-    border: none;
-    font-size: 18px;
-    color: #2c3e50;
-    background: white;
-    transition: all 0.25s ease;
-    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.06);
-    position: absolute;
-    right: 0;
-    top: 0;
-    align-self: flex-end;
-    margin-top: -7px;
-    margin-right: -7px;
-}
-
-.closeBtn:hover {
-    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
-    transform: translate(-4px, 4px);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .deleteBtn {
-    margin-top: 10px;
-    cursor: pointer;
-    font-weight: 500;
-    padding: 11px 28px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    border: none;
-    color: #fff;
-    background: #ff3e4e;
-    transition: all 0.25s ease;
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 11px 28px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  border: none;
+  color: #fff;
+  background: #ff3e4e;
+  transition: all 0.25s ease;
 }
 
 .deleteBtn:hover {
-    box-shadow: 0 10px 20px -10px rgba(255, 62, 78, 0.6);
-    transform: translateY(-5px);
-    background: #ff3e4e;
+  box-shadow: 0 10px 20px -10px rgba(255, 62, 78, 0.6);
+  transform: translateY(-5px);
+  background: #ff3e4e;
 }
 
 .cancelBtn {
-    margin-top: 10px;
-    cursor: pointer;
-    font-weight: 500;
-    padding: 11px 28px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    border: none;
-    color: #2c3e50;
-    background: #fcfcfc;
-    transition: all 0.25s ease;
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 11px 28px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  border: none;
+  color: #2c3e50;
+  background: #fcfcfc;
+  transition: all 0.25s ease;
 }
 
 .cancelBtn:hover {
-    box-shadow: none;
-    transform: none;
-    background: whitesmoke;
+  box-shadow: none;
+  transform: none;
+  background: whitesmoke;
 }

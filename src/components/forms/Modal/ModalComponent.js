@@ -1,18 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./Modal.module.scss"
-import { WebWindowXmark as CloseModelcon } from 'iconoir-react'
+import { Xmark as XmarkIcon } from 'iconoir-react'
 
-const ModalComponent = ({ isOpen=false, setIsOpen, children }) => {
+const ModalComponent = ({ isOpen = false, setIsOpen, children, modalTitle='' }) => {
+  useEffect(() => {
+    if (isOpen) {
+      console.log('modal opened')
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isOpen])
+
   return (
-    isOpen && (<div className={styles.darkBG} onClick={() => setIsOpen(false)}>
+    isOpen && (<div className={styles.darkBG}>
+      <div className={styles.darkBGOverlay} onClick={() => setIsOpen(false)}></div>
       <div className={styles.centered}>
-        <div className={styles.modal}>
+        <header className={styles.modalHeader}>
+          <h2 className={styles.modalTitle}>{modalTitle}</h2>
           <button className={styles.closeBtn} onClick={() => setIsOpen(false)}>
-            <CloseModelcon />
+            <XmarkIcon strokeWidth={2} />
           </button>
-          <div className={styles.modalContent}>
-            {children}
-          </div>
+        </header>
+        <div className={styles.modalContent}>
+          {children}
         </div>
       </div>
     </div>)

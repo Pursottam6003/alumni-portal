@@ -1,7 +1,7 @@
 import styles from '../Form.module.scss'
 import { forwardRef } from 'react'
 
-const Select = forwardRef(({ onChange, onBlur, name, label, options, required = false, error }, ref) => {
+const Select = forwardRef(({ onChange, onBlur, name, label, options, required = false, disabled=false, error }, ref) => {
   return (
     !options || !Array.isArray(options)
       ? <p>Invalid options array</p>
@@ -9,7 +9,7 @@ const Select = forwardRef(({ onChange, onBlur, name, label, options, required = 
         <div className={styles['field-wrapper']}>
           <div className={styles['form-field']}>
             <label htmlFor={name}>{`Select ${label.toLowerCase()}${required ? '' : ' (optional)'}`}</label>
-            <select name={name} ref={ref} onChange={onChange} onBlur={onBlur} defaultValue="">
+            <select disabled={disabled} name={name} ref={ref} onChange={onChange} onBlur={onBlur} defaultValue="">
               <option value="" disabled>{label}..</option>
               {options.map(({ label, value }, index) => (
                 <option key={index} value={value}>{label}</option>

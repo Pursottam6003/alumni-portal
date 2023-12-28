@@ -2,7 +2,7 @@ import styles from '../Form.module.scss'
 import cx from 'classnames'
 import { forwardRef } from 'react'
 
-const TextField = forwardRef(({ pattern = '.*', onChange, onBlur, name, label, type = 'text', value, error = null, required = false, Icon=null }, ref) => {
+const TextField = forwardRef(({ pattern = '.*', onChange, onBlur, name, label, type = 'text', value, error = null, required = false, disabled=false, Icon=null }, ref) => {
   if (!['text', 'email', 'password'].includes(type)) {
     return <p>Invalid text type</p>
   }
@@ -23,6 +23,7 @@ const TextField = forwardRef(({ pattern = '.*', onChange, onBlur, name, label, t
           onChange={onChange}
           className={ cx({ [styles.withIcon]: Icon !== null }) }
           onBlur={onBlur}
+          disabled={disabled}
         />
       </label>
     </div>

@@ -30,6 +30,7 @@ const SchemaForm = ({ schema, onSubmit, actions = null, loading = false, prefill
             {...register(field.name, { required: field.required })}
             value={watch(field.name)}
             error={errors[field.name]}
+            disabled={field.disabled}
           />
         } else if (field.type === 'select') {
           return <Select
@@ -40,6 +41,7 @@ const SchemaForm = ({ schema, onSubmit, actions = null, loading = false, prefill
             options={field.options}
             error={errors[field.name]}
             {...register(field.name, { required: field.required })}
+            disabled={field.disabled}
           />
         } else if (field.type === 'date') {
           return <DateField
@@ -50,6 +52,7 @@ const SchemaForm = ({ schema, onSubmit, actions = null, loading = false, prefill
             required={field.required}
             value={watch(field.name)}
             error={errors[field.name]}
+            disabled={field.disabled}
           />
         } else if (field.type === 'number') {
           return <NumberField
@@ -59,6 +62,7 @@ const SchemaForm = ({ schema, onSubmit, actions = null, loading = false, prefill
             required={field.required}
             value={watch(field.name)}
             error={errors[field.name]}
+            disabled={field.disabled}
           />
         } else if (field.type === 'radio') {
           return <Radio

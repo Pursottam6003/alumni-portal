@@ -1,33 +1,45 @@
 import styles from '../Profile.module.scss'
 import { SchemaForm, Button } from "../../../components/forms"
 import cx from 'classnames';
-import { EditPencil } from 'iconoir-react';
+import { EditPencil, Trash as TrashIcon, Upload as UploadIcon } from 'iconoir-react';
 import { dataValueLookup } from '../../../utils/data';
 import ModalComponent from '../../../components/forms/Modal/ModalComponent';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-const PersonalDetailsForm = () => {
-  const onSubmit = (data) => {
-    console.log(data)
-    fetch('/users/update-profile', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      credentials: 'include',
-      headers: {
-        'Content-type': 'application/json'
-      }
-    }).then(res => res.json())
-      .then(resJson => {
-        if (resJson.success) {
-          // TODO: redirect to dashboard
-        }
-      })
-      .catch(err => console.log(err))
-  };
+const Avatar = ({ avatar }) => (
+  <div className={styles['avatar-crop']}>
+    {avatar
+      ? <img src={avatar} alt="avatar" />
+      : <img src='https://via.placeholder.com/200' alt="avatar" />
+    }
+  </div>
+)
 
+const ProfilePictureUpload = ({ avatar }) => {
+  return (
+    <div className={cx(styles.box, styles['avatar-upload'])}>
+      <Avatar avatar={avatar} />
+      <div className={styles['avatar-upload-info']}>
+        <p>For best results, use an image at least 200px by 200px in .jpg format.</p>
+      </div>
+      <div className={styles['avatar-upload-actions']}>
+        <Button>
+          <UploadIcon />
+          Change picture
+        </Button>
+        {avatar && <Button>
+          <TrashIcon />
+          Remove picture
+        </Button>}
+      </div>
+    </div>
+  )
+}
+
+const PersonalDetailsForm = ({ prefillData, onSubmit }) => {
   return (
     <div className={styles.box}>
-      <SchemaForm schema={[
+      <SchemaForm prefillData={prefillData} schema={[
         { type: 'section', label: 'Personal Details' },
         {
           name: 'title', label: 'Title', type: 'select', required: 'Title is required', options: [
@@ -39,6 +51,8 @@ const PersonalDetailsForm = () => {
         },
         { name: 'firstName', label: 'First Name', type: 'text', required: 'Please provide first name' },
         { name: 'lastName', label: 'Last Name', type: 'text', required: 'Please provide last name' },
+        { name: 'registrationNo', label: 'Registration no.', type: 'text', required: 'Please provide registration number' },
+        { name: 'rollNo', label: 'Roll no.', type: 'text', required: 'Please provide roll number' },
         { name: 'dob', label: 'Date of Birth', type: 'date', required: 'Please provide date of birth' },
         {
           name: 'sex', label: 'Sex', type: 'select', required: 'Sex is required', options: [
@@ -66,7 +80,7 @@ const PersonalDetailsForm = () => {
         { name: 'country', label: 'Country', type: 'text', required: 'Country is required' },
         { name: 'phone', label: 'Phone', type: 'text', required: 'Phone number is required' },
         { name: 'altPhone', label: 'Alternate Phone', type: 'text' },
-        { name: 'email', label: 'Email', type: 'email', required: 'Primary Email is required' },
+        { name: 'email', label: 'Email (visit account settings to change)', type: 'email', required: 'Primary Email is required', disabled: true },
         { name: 'altEmail', label: 'Alternate Email', type: 'email' },
         { name: 'linkedin', label: 'Linkedin', type: 'text' },
         { name: 'github', label: 'Github', type: 'text' },
@@ -79,6 +93,27 @@ const PersonalDetailsForm = () => {
 
 const PersonalDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+
+  const updateProfile = (data) => {
+    console.log(data)
+    fetch('/users/update-profile', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      credentials: 'include',
+      headers: {
+        'Content-type': 'application/json'
+      }
+    }).then(res => res.json())
+      .then(resJson => {
+        if (resJson.success) {
+          setIsModalOpen(false);
+        }
+      })
+      .catch(err => console.log(err))
+  };
+
+  const avatar = 'https://avatars.githubusercontent.com/u/75485331';
 
   const profileDetails = {
     'title': 'mr',
@@ -113,7 +148,13 @@ const PersonalDetails = () => {
       </div>
       <div className={styles['basic-info']}>
         <div className={styles['avatar-container']}>
-          <img src="https://avatars.githubusercontent.com/u/77870205" alt="avatar" />
+          <Avatar avatar={avatar} />
+          <Button className={styles['avatar-edit']} onClick={() => { setIsProfileModalOpen(true) }}>
+            <EditPencil />
+          </Button>
+          <ModalComponent isOpen={isProfileModalOpen} setIsOpen={(val) => { setIsProfileModalOpen(val) }} modalTitle='Change profile picture'>
+            <ProfilePictureUpload avatar={avatar} />
+          </ModalComponent>
         </div>
         <div className={styles['basic-info-content']}>
           <h2 className={styles['title']}>{dataValueLookup[profileDetails.title]} {profileDetails.firstName} {profileDetails.lastName}</h2>
@@ -200,8 +241,8 @@ const PersonalDetails = () => {
         </div>
       </div>
     </section>
-    <ModalComponent isOpen={isModalOpen} setIsOpen={(val) => {setIsModalOpen(val)}}>
-      <PersonalDetailsForm />
+    <ModalComponent isOpen={isModalOpen} modalTitle='Edit personal details' setIsOpen={(val) => { setIsModalOpen(val) }}>
+      <PersonalDetailsForm prefillData={profileDetails} onSubmit={updateProfile} />
     </ModalComponent>
   </>)
 }

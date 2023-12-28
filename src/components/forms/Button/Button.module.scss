@@ -6,9 +6,9 @@
     display: inline-block;
     font-size: 1rem;
     font-weight: 700;
-    line-height: 1.5;
+    line-height: 1.1;
     margin: 0;
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1.2rem;
     text-align: center;
     text-decoration: none;
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
@@ -20,4 +20,5 @@
     flex-direction: row;
     gap: 0.5rem;
     justify-content: center;
+    align-items: center;
 }
