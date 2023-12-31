@@ -120,7 +120,9 @@ const Navbar = () => {
               <div className={styles['spinner']} aria-label='Loading auth status'></div>
             ) : (
               <button id={styles.userToggle} type='button' aria-label='Profile' className={styles['profile-btn']} onClick={toggleUserNav}>
-                <UserIcon width={22} height={22} strokeWidth={2} />
+                {user?.avatar
+                  ? <Avatar size={'2rem'} avatar={user?.avatar} />
+                  : <UserIcon width={22} height={22} strokeWidth={2} />}
               </button>
             )}
           </div>
@@ -135,8 +137,7 @@ const Navbar = () => {
           <div className={cx(styles['mobile-nav'], 'container')} id='userNav'>
             {user && (
               <div className={styles['user-info']}>
-                {user.avatar && <Avatar avatar={`/media/avatars/${user.avatar}`} className={styles['user-avatar']} />}
-                {/* <div className={styles['user-name']}>{user.displayName}</div> */}
+                {user.avatar && <Avatar avatar={user.avatar} size='6rem' />}
                 {user.firstName ? (
                   <div className={styles['user-name']}>{dataValueLookup[user.title]} {user.firstName} {user.lastName}</div>
                 ) : (

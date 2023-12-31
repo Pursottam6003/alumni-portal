@@ -1,8 +1,7 @@
 .avatar {
   border-radius: 50%;
   overflow: hidden;
-  width: 200px;
-  height: 200px;
+  aspect-ratio: 1;
 
   img {
     width: 100%;

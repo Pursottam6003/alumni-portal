@@ -9,7 +9,7 @@ import { useUser } from '../../../contexts/UserContext'
 import Avatar from '../../../components/Avatar/Avatar';
 import styles from '../Profile.module.scss'
 
-const ProfilePictureUpload = ({ avatar = null }) => {
+const ProfilePictureUpload = ({ avatar = null, updateAvatar }) => {
   const [file, setFile] = useState(null);
   const [fileUrl, setFileUrl] = useState(avatar);
 
@@ -32,26 +32,7 @@ const ProfilePictureUpload = ({ avatar = null }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('uploading')
-
-    const formData = new FormData();
-    formData.append('avatar', file);
-
-    try {
-      const response = await fetch('/users/update-avatar', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (response.ok) {
-        // Handle successful upload
-        console.log('uploaded')
-      } else {
-        // Handle upload error
-      }
-    } catch (error) {
-      // Handle fetch error
-    }
+    updateAvatar(file);
   }
 
   return (
@@ -133,10 +114,8 @@ const PersonalDetailsForm = ({ prefillData, onSubmit }) => {
   )
 }
 
-// const testAvatar = 'https://avatars.githubusercontent.com/u/68462214?v=4';
-
 const PersonalDetails = () => {
-  const { user: { email, avatar } } = useUser();
+  const { user: { email }, fetchUser } = useUser();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
@@ -158,11 +137,40 @@ const PersonalDetails = () => {
       .then(resJson => {
         if (resJson.success) {
           fetchProfile();
-          setIsModalOpen(false);
         }
       })
       .catch(err => console.log(err))
+      .finally(() => {
+        setTimeout(() => {
+          setIsModalOpen(false);
+        }, 1000)
+      });
   };
+
+  const updateAvatar = async (file) => {
+    const formData = new FormData();
+    formData.append('avatar', file);
+
+    try {
+      const response = await fetch('/users/update-avatar', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        // Handle successful upload
+        fetchProfile();
+      } else {
+        // Handle upload error
+      }
+    } catch (error) {
+      // Handle fetch error
+    } finally {
+      setTimeout(() => {
+        setIsProfileModalOpen(false);
+      }, 1000)
+    }
+  }
 
   const fetchProfile = () => {
     profileApi().then(data => {
@@ -172,6 +180,10 @@ const PersonalDetails = () => {
 
   useEffect(() => {
     fetchProfile();
+
+    return () => {
+      fetchUser();
+    }
   }, [])
 
   return false
@@ -185,12 +197,12 @@ const PersonalDetails = () => {
         </div>
         <div className={styles['basic-info']}>
           <div className={styles['avatar-container']}>
-            <Avatar avatar={`/media/avatars/${avatar}`} className={styles['avatar-crop']} />
+            <Avatar avatar={personalDetails.avatar} className={styles['avatar-crop']} />
             <Button className={styles['avatar-edit']} onClick={() => { setIsProfileModalOpen(true) }}>
               <EditPencil />
             </Button>
             <ModalComponent isOpen={isProfileModalOpen} setIsOpen={(val) => { setIsProfileModalOpen(val) }} modalTitle='Change profile picture'>
-              <ProfilePictureUpload avatar={`/media/avatars/${avatar}`} />
+              <ProfilePictureUpload avatar={personalDetails.avatar} updateAvatar={updateAvatar} />
             </ModalComponent>
           </div>
           <div className={styles['basic-info-content']}>

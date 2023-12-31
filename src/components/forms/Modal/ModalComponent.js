@@ -2,10 +2,9 @@ import React, { useEffect } from "react";
 import styles from "./Modal.module.scss"
 import { Xmark as XmarkIcon } from 'iconoir-react'
 
-const ModalComponent = ({ isOpen = false, setIsOpen, children, modalTitle='' }) => {
+const ModalComponent = ({ isOpen = false, setIsOpen, children, modalTitle = '' }) => {
   useEffect(() => {
     if (isOpen) {
-      console.log('modal opened')
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';

@@ -74,7 +74,7 @@ const useAuth = () => {
     checkAuth();
   }, [])
 
-  return { user, admin, loading, login, logout, checkAuth }
+  return { user, admin, loading, login, logout, checkAuth, fetchUser }
 }
 
 export default useAuth;
