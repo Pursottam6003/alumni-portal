@@ -18,6 +18,10 @@ const SchemaForm = ({ schema, onSubmit, actions = null, loading = false, prefill
     return <p>Please wait...</p>
   }
 
+  if (!schema || schema.length === 0 || !onSubmit) {
+    return <p>Invalid form</p>
+  }
+
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)}>
       {schema.map((field, index) => {

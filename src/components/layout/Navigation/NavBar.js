@@ -1,9 +1,10 @@
 import { NavLink } from 'react-router-dom'
 import styles from './NavBar.module.scss'
 import cx from 'classnames'
-// import { ReactComponent as MenuIcon } from '.././../../assets/hamburger.svg'
 import { Menu as MenuIcon, User as UserIcon } from 'iconoir-react'
 import { useUser } from '../../../contexts/UserContext'
+import Avatar from '../../Avatar/Avatar'
+import { dataValueLookup } from '../../../utils/data'
 
 const toggleMobileNav = (e) => {
   e.preventDefault();
@@ -134,7 +135,13 @@ const Navbar = () => {
           <div className={cx(styles['mobile-nav'], 'container')} id='userNav'>
             {user && (
               <div className={styles['user-info']}>
+                {user.avatar && <Avatar avatar={`/media/avatars/${user.avatar}`} className={styles['user-avatar']} />}
                 {/* <div className={styles['user-name']}>{user.displayName}</div> */}
+                {user.firstName ? (
+                  <div className={styles['user-name']}>{dataValueLookup[user.title]} {user.firstName} {user.lastName}</div>
+                ) : (
+                  <div className={styles['message']}>Please complete your profile</div>
+                )}
                 <div className={styles['user-email']}>{user.email}</div>
               </div>
             )}

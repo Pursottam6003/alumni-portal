@@ -29,7 +29,7 @@ const profiles = [
   "registrationNo",
   "rollNo",
   "sign",
-  "passport",
+  "avatar",
 ]
 
 const academics = [

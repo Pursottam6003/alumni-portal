@@ -106,6 +106,13 @@
   }
 }
 
+.box.alert {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 1rem;
+}
+
 @media screen and (max-width: 1024px) {
   .sidebar {
     grid-column: span 4 / span 4;
@@ -226,7 +233,7 @@
   }
 }
 
-.avatar-crop {
+.basic-info .avatar-crop {
   border-radius: 50%;
   overflow: hidden;
   width: 150px;
@@ -286,14 +293,23 @@
       flex: 1;
     }
 
-    button {
+    label, button {
+      display: flex;
+      gap: 0.5rem;
+      border: solid 1px #000;
       padding: 0.3rem 0.6rem;
       font-weight: 500;
       font-size: 1rem;
+      white-space: nowrap;
+      justify-content: center;
 
       svg {
         width: 1.2rem;
         stroke-width: 1.8;
+      }
+
+      &:hover {
+        cursor: pointer;
       }
     }
   }

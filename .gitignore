@@ -25,3 +25,5 @@ yarn-error.log*
 .env
 
 server/media/*
+server/public/*
+server/private/*

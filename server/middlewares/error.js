@@ -15,6 +15,10 @@ function errorHandler(err, req, res, next) {
     statusCode = 400;
     message = err.message;
   }
+  if (err.code === 'LIMIT_FILE_SIZE') {
+    statusCode = 400;
+    message = 'File size too large';
+  }
 
   res.status(statusCode).json({ message: message, success: false });
 }

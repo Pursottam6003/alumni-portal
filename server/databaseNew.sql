@@ -39,7 +39,7 @@ CREATE TABLE profiles (
     rollNo varchar(16),
 
     sign  varchar(255) DEFAULT NULL,
-    passport varchar(255) DEFAULT NULL,
+    avatar varchar(255) DEFAULT NULL,
 
     PRIMARY KEY(userId),
     FOREIGN KEY(userId) REFERENCES users(id)

@@ -6,41 +6,8 @@ import { Outlet } from "react-router";
 import PersonalDetails from "./personal-details/page";
 import AcademicDetails from "./academic-details/page";
 import ProfessionalDetails from "./professional-details/page";
-import { ModelComponent } from "../../components/forms";
-import ModalComponent from "../../components/forms/Modal/ModalComponent";
 
 const Profile = () => {
-  const [loading, setLoading] = useState(true);
-  const [prefillData, setPrefillData] = useState(null);
-  const [isProfileUpdated, setIsProfileUpdated] = useState(false);
-
-
-  const prepopulate = async () => {
-    try {
-      const res = await fetch('/users/profile', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-type': 'application/json'
-        }
-      })
-      const resJson = await res.json();
-      if (!resJson.error) {
-        setIsProfileUpdated(true);
-        setPrefillData(resJson.user);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    // prepopulate form with user data
-    prepopulate();
-  }, [])
-
   const onSubmit = (data) => {
     console.log(data)
     fetch('/users/update-profile', {

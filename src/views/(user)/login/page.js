@@ -28,11 +28,9 @@ const Login = () => {
 
   useEffect(() => {
     if (loading || !user) return;
-    if (user.isProfileIncomplete) {
-      console.log('Profile incomplete');
+    if (!(user.firstName && user.lastName && user.title)) {
       history('/profile');
     } else {
-      console.log('Profile complete, proceed for alumni registration');
       history('/membership-registration');
     }
   }, [user, loading])

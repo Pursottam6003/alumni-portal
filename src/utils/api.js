@@ -32,4 +32,19 @@ const profile = () => fetch('/users/profile', {
   headers: { 'Content-Type': 'application/json' },
 }).then(checkResponse).catch(err => console.log(err))
 
-export { login as loginApi, logout as logoutApi, checkAuth as checkAuthApi, profile as profileApi, signup as signupApi };
+const user = (id) => {
+  const fetchUrl = id ? `/user?id=${id}` : `/users`;
+  return fetch(fetchUrl, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  }).then(checkResponse).catch(err => console.log(err))
+}
+
+export {
+  login as loginApi,
+  logout as logoutApi,
+  checkAuth as checkAuthApi,
+  profile as profileApi,
+  signup as signupApi,
+  user as userApi
+};

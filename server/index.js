@@ -17,10 +17,24 @@ if (process.env.NODE_ENV === 'development') {
   }));
 }
 
+const initializeStorage = () => {
+  const fs = require('fs');
+  const avatarsDir = path.join(__dirname, 'public', 'avatars');
+  if (!fs.existsSync(avatarsDir)) {
+    fs.mkdirSync(avatarsDir, { recursive: true });
+  }
+  const signDir = path.join(__dirname, 'private', 'sign');
+  if (!fs.existsSync(signDir)) {
+    fs.mkdirSync(signDir, { recursive: true });
+  }
+}
+
 const port = process.env.SERVER_PORT || 5000;
 app.listen(port, () => {
   console.log('Server listening to port', port, ' Environment:', process.env.NODE_ENV);
   dbo.connectToServer(() => {
+    initializeStorage();
+
     // middlewares for api routes
     app.use(require('./routes/users'));
     app.use(require('./routes/alumni'));

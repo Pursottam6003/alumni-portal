@@ -210,3 +210,29 @@
     transform: rotate(360deg);
   }
 }
+
+.user-info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 1rem;
+
+  .user-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .user-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 9999px;
+  }
+
+  .message {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #18621f;
+    text-decoration: none;
+  }
+}

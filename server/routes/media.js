@@ -3,10 +3,21 @@ const authenticate = require('../middlewares/auth');
 const path = require('path');
 const fs = require('fs');
 
-media.get('/:filename', authenticate, (req, res) => {
+media.get('/sign/:filename', authenticate, (req, res) => {
   // send the file if it exists
-  if (fs.existsSync(path.join(__dirname, '../media', req.params.filename))) {
-    res.sendFile(__dirname + '../media/' + req.params.filename);
+  const signDir = path.join(__dirname, '..', 'private', 'sign');
+  if (fs.existsSync(path.join(signDir, req.params.filename))) {
+    res.sendFile(path.join(signDir, req.params.filename));
+  } else {
+    res.status(404).json({ message: 'File not found' });
+  }
+})
+
+media.get('/avatars/:filename', (req, res) => {
+  // send the file if it exists
+  const avatarsDir = path.join(__dirname, '..', 'public', 'avatars');
+  if (fs.existsSync(path.join(avatarsDir, req.params.filename))) {
+    res.sendFile(path.join(avatarsDir, req.params.filename));
   } else {
     res.status(404).json({ message: 'File not found' });
   }
