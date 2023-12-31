@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { TextField, Select, Radio, Button, DateField, NumberField } from '../';
 import styles from '../Form.module.scss'
 import { useEffect } from 'react';
+import Textarea from '../Textarea/Textarea';
 
 const SchemaForm = ({ schema, onSubmit, actions = null, loading = false, prefillData }) => {
   const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm();
@@ -76,6 +77,17 @@ const SchemaForm = ({ schema, onSubmit, actions = null, loading = false, prefill
             required={field.required}
             options={field.options}
             error={errors[field.name]}
+          />
+        } else if (field.type === 'textarea') {
+          return <Textarea
+            key={index}
+            label={field.label}
+            {...register(field.name, { required: field.required })}
+            required={field.required}
+            options={field.options}
+            error={errors[field.name]}
+            value={watch(field.name)}
+            disabled={field.disabled}
           />
         } else if (field.type === 'section') {
           return <h3 className={styles['section-title']} key={index}>{field.label}</h3>

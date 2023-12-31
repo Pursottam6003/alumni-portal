@@ -52,9 +52,9 @@ CREATE TABLE academics (
     type SET('part-time', 'full-time') DEFAULT 'full-time',
     institute varchar(50) NOT NULL,
     degree varchar(50) NOT NULL,
-    discipline varchar(50) NOT NULL,
+    discipline varchar(50) NOT NULL,    -- field of study
     startDate varchar(10) NOT NULL,
-    endDate varchar(10) DEFAULT 'present',
+    endDate varchar(10) NOT NULL,       -- or exptected
     description varchar(255) NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY(userId) REFERENCES profiles(userId)

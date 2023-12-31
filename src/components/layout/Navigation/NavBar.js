@@ -119,9 +119,9 @@ const Navbar = () => {
             {loading ? (
               <div className={styles['spinner']} aria-label='Loading auth status'></div>
             ) : (
-              <button id={styles.userToggle} type='button' aria-label='Profile' className={styles['profile-btn']} onClick={toggleUserNav}>
+              <button id={styles.userToggle} type='button' aria-label='Profile' style={user?.avatar ? { border: 'none' } : {}} className={styles['profile-btn']} onClick={toggleUserNav}>
                 {user?.avatar
-                  ? <Avatar size={'2rem'} avatar={user?.avatar} />
+                  ? <Avatar size={'100%'} avatar={user?.avatar} />
                   : <UserIcon width={22} height={22} strokeWidth={2} />}
               </button>
             )}

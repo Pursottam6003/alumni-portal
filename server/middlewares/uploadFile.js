@@ -1,27 +1,25 @@
 // upload file using multer
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs');
 
 // configure multer for different file types and storage
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function (req, file, cb) {
     if (file.fieldname === 'avatar') {
-      // cb(null, './server/public/avatars/');
       cb(null, path.join(__dirname, '..', 'public', 'avatars'));
     } else if (file.fieldname === 'sign') {
-      // cb(null, './server/private/signatures/'); // Change the destination to a private folder
       cb(null, path.join(__dirname, '..', 'private', 'avatars'));
     } else {
       cb('Error: Invalid fieldname!');
     }
   },
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
+    let now = new Date();
     const userId = req.user.id; // Assuming you have the user ID available in the request object
     const extname = path.extname(file.originalname).toLowerCase();
-    cb(null, userId + extname);
+    cb(null, userId + now.getTime() + extname);
   },
-  fileFilter: function(req, file, cb) {
+  fileFilter: function (req, file, cb) {
     const filetypes = /png|jpg|webp/;
     const mimetype = filetypes.test(file.mimetype);
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());

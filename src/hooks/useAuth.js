@@ -60,8 +60,8 @@ const useAuth = () => {
         if (user) {
           setUser(user)
           setAdmin(user.role === 'admin')
+          fetchUser();
         }
-        fetchUser();
       }
     })
       .catch(err => {
