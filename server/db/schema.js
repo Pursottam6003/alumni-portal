@@ -1,5 +1,5 @@
 const users = [
-  "id", 
+  "id",
   "username",
   "email",
   "password",
@@ -41,7 +41,7 @@ const academics = [
   "discipline",
   "startDate",
   "endDate",
-  "description"
+  "description",
 ]
 
 const experiences = [

@@ -2,7 +2,7 @@ import cx from "classnames"
 import { SchemaForm, Button } from "../../../components/forms"
 import ModalComponent from "../../../components/forms/Modal/ModalComponent"
 import styles from '../Profile.module.scss'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const EducationFormNITAP = ({ onSubmit }) => {
   const prefillData = { institute: 'National Institute of Technology, Arunachal Pradesh' }
@@ -59,7 +59,39 @@ const AcademicDetails = () => {
   const [educations, setEducations] = useState([]);
 
   // add, update or delete
-  const updateEducation = () => { }
+  const updateEducation = (data) => {
+    fetch('/users/education', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      credentials: 'include',
+      headers: {
+        'Content-type': 'application/json'
+      }
+    }).then(res => {
+      if (res.ok) {
+        fetchEducation();
+        return res.json();
+      }
+      return null;
+    }).then(resJson => {
+      console.log(resJson);
+    }).catch(err => {
+      console.error(err);
+    })
+  }
+
+  const fetchEducation = () => {
+    fetch('/users/education', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    }).then(res => {
+      return res.ok ? res.json() : null;
+    }).then(resJson => {
+      if (resJson) {
+        setEducations(resJson.educationList);
+      }
+    }).catch(err => console.error(err))
+  }
 
   const onSubmit = (data) => {
     console.log(data)
@@ -79,6 +111,10 @@ const AcademicDetails = () => {
       .catch(err => console.log(err))
   };
 
+  useEffect(() => {
+    fetchEducation();
+  }, [])
+
   return (<>
     <section className={styles.box}>
       <Button onClick={() => setIsModalOpen(true)}>
@@ -90,13 +126,13 @@ const AcademicDetails = () => {
           isOpen={isModalOpen}
           setIsOpen={setIsModalOpen}>
           <section className={styles.box}>
-            <EducationFormNITAP onSubmit={onSubmit} />
+            <EducationFormNITAP onSubmit={updateEducation} />
           </section>
         </ModalComponent>
       ) : (
         <ModalComponent modalTitle="Add Education" isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
           <section className={styles.box}>
-            <EducationForm onSubmit={onSubmit} />
+            <EducationForm onSubmit={updateEducation} />
           </section>
         </ModalComponent>
       )}
@@ -104,7 +140,11 @@ const AcademicDetails = () => {
     <section className={styles.box}>
       <div className={styles['box-table']}>
         <div className={cx(styles['box-row'])}>
-
+          {educations.map(e => (
+            <pre>
+              {JSON.stringify(e, null, 2)}
+            </pre>
+          ))}
         </div>
       </div>
     </section>

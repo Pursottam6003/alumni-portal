@@ -47,10 +47,10 @@ CREATE TABLE profiles (
 
 -- create table for storing academics details of users, having foreign key as userId from profile table
 CREATE TABLE academics (
-    id varchar(50) NOT NULL,
+    id char(36) NOT NULL DEFAULT (UUID()),
     userId char(36) NOT NULL,
     type SET('part-time', 'full-time') DEFAULT 'full-time',
-    institute varchar(50) NOT NULL,
+    institute varchar(255) NOT NULL,
     degree varchar(50) NOT NULL,
     discipline varchar(50) NOT NULL,    -- field of study
     startDate varchar(10) NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE academics (
 
 -- create table for storing experience (job and internship) details of users having foreign key as userId from profile table
 CREATE TABLE experiences (
-    id varchar(50) NOT NULL,
+    id char(36) NOT NULL DEFAULT (UUID()),
     userId char(36) NOT NULL,
     type SET('job', 'internship') DEFAULT 'job',
     organisation varchar(50) NOT NULL,
