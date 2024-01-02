@@ -205,7 +205,7 @@ users.route('/users/experience').post(authenticate, (req, res, next) => {
   const placeholders = keys.map(() => "?").join(", ");
   const values = [user.id, ...keys.map(key => body[key])];
   const sql = `
-    INSERT INTO academics (userId, ${keys.join(", ")})
+    INSERT INTO experiences (userId, ${keys.join(", ")})
     VALUES (?, ${placeholders})
     ON DUPLICATE KEY UPDATE ${keys.map(key => `${key} = VALUES(${key})`).join(", ")}
   `;
@@ -220,7 +220,7 @@ users.route('/users/experience').delete(authenticate, (req, res, next) => {
   const user = req.user;
   const id = req.query.id;
 
-  const sql = 'DELETE FROM academics WHERE id = ? AND userId = ?';
+  const sql = 'DELETE FROM experiences WHERE id = ? AND userId = ?';
   db.query(sql, [id, user.id], (err, results) => {
     if (err) return next(err);
     console.log('Deleted experience:', results);
@@ -231,7 +231,7 @@ users.route('/users/experience').delete(authenticate, (req, res, next) => {
 users.route('/users/experience').get(authenticate, (req, res, next) => {
   const user = req.user;
 
-  const sql = `SELECT * FROM academics WHERE userId = ?`;
+  const sql = `SELECT * FROM experiences WHERE userId = ?`;
   db.query(sql, [user.id], (err, results) => {
     if (err) return next(err);
     console.log('Experience list', results);

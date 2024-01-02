@@ -97,7 +97,7 @@ const ProfessionalDetails = () => {
       return res.ok ? res.json() : null;
     }).then(resJson => {
       if (resJson) {
-        setExperiences(resJson.educationList);
+        setExperiences(resJson.experienceList);
       }
     }).catch(err => console.error(err))
   }
