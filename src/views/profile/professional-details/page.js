@@ -19,8 +19,8 @@ const ExperienceForm = ({ onSubmit, prefillData = {} }) => {
       { name: 'organisation', label: 'Company/Organization', type: 'text', required: 'Company/organization name is required' },
       { name: 'designation', label: 'Designation/Role', type: 'text', required: 'Designation is required' },
       { name: 'location', label: 'Location', type: 'text', required: 'Location is required' },
-      { name: 'startDate', label: 'Start date', type: 'date', required: 'Work from date is required' },
-      { name: 'endDate', label: 'Leave date (leave empty if this is your current job)', type: 'date' },
+      { name: 'startDate', label: 'Start date', type: 'date', required: 'Start date is required' },
+      { name: 'endDate', label: 'End date (leave empty if this is your current job)', type: 'date' },
       { name: 'ctc', label: 'CTC in LPA', type: 'number' },
       { name: 'description', label: 'Description', type: 'textarea' },
     ]} onSubmit={onSubmit} actions={(
@@ -60,7 +60,7 @@ const ExperienceComponent = ({ data, openEditModal }) => {
           </div>
         )}
       </div>
-      <div>
+      <div className={styles.actions}>
         <Button attrs={{ 'aria-label': 'Edit education details' }} className={cx(styles['editIcon'])} onClick={() => openEditModal(data)}>
           <EditPencil />
         </Button>
@@ -91,6 +91,7 @@ const ProfessionalDetails = () => {
       return null;
     }).then(resJson => {
       console.log(resJson);
+      setTimeout(() => setIsModalOpen(false), 1000);
     }).catch(err => {
       console.error(err);
     })
@@ -123,19 +124,16 @@ const ProfessionalDetails = () => {
       <div className={styles['box-table']}>
         <div className={cx(styles['box-row'], styles.header)} >
           <div className={styles['col']}>
-            <h3 className={styles['title']}>
-              Professional Details
-            </h3>
+            <h3 className={styles['title']}>Experience</h3>
           </div>
-          <Button onClick={openModal}>
-            <AddIcon />Add
-          </Button>
+          <div className={styles.actions}>
+            <Button onClick={() => openModal()}><AddIcon />Add</Button>
+          </div>
         </div>
         {experiences.map((e, i) => (
           <ExperienceComponent data={e} key={i} openEditModal={openModal} />
         ))}
-
-        <ModalComponent modalTitle="Add Experience" isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
+        <ModalComponent modalTitle={editPrefillData ? "Edit Experience" : "Add Experience"} isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
           <section className={styles.box}>
             <ExperienceForm onSubmit={updateExperience} prefillData={editPrefillData} />
           </section>

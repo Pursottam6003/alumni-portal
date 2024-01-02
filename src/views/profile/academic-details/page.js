@@ -78,8 +78,8 @@ const EducationComponent = ({ data, openEditModal }) => {
           </div>
         )}
       </div>
-      <div>
-        <Button attrs={{ 'aria-label': 'Edit education details' }} className={cx(styles['editIcon'])} onClick={() => openEditModal(data)}>
+      <div className={styles.actions}>
+        <Button attrs={{ 'aria-label': 'Edit education' }} className={cx(styles['editIcon'])} onClick={() => openEditModal(data)}>
           <EditPencil />
         </Button>
       </div>
@@ -109,6 +109,7 @@ const AcademicDetails = () => {
       return null;
     }).then(resJson => {
       console.log(resJson);
+      setTimeout(() => setIsModalOpen(false), 1000);
     }).catch(err => {
       console.error(err);
     })
@@ -141,16 +142,14 @@ const AcademicDetails = () => {
       <div className={styles['box-table']}>
         <div className={cx(styles['box-row'], styles.header)} >
           <div className={styles['col']}>
-            <h3 className={styles['title']}>
-              Academic Details
-            </h3>
+            <h3 className={styles['title']}>Education</h3>
           </div>
-          <Button onClick={openModal}>
-            <AddIcon />Add
-          </Button>
+          <div className={styles.actions}>
+            <Button onClick={() => openModal()}><AddIcon />Add</Button>
+          </div>
         </div>
-        {educations.map(e => (
-          <EducationComponent data={e} key={e.institute} openEditModal={openModal} />
+        {educations.map((e, i) => (
+          <EducationComponent data={e} key={i} openEditModal={openModal} />
         ))}
 
         {(educations?.length === 0) ? (
@@ -163,7 +162,8 @@ const AcademicDetails = () => {
             </section>
           </ModalComponent>
         ) : (
-          <ModalComponent modalTitle="Add Education" isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
+          <ModalComponent modalTitle={editPrefillData ? "Edit Education" : "Add Education"}
+            isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
             <section className={styles.box}>
               <EducationForm onSubmit={updateEducation} prefillData={editPrefillData} />
             </section>
