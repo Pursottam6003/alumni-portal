@@ -5,7 +5,7 @@ import ProtectedComponent from "./components/protectedComponent/ProtectedCompone
 import { Home, Login, LoginOld, Register, RegisterOld } from "./views";
 import Profile, { PersonalDetails, AcademicDetails, ProfessionalDetails } from "./views/profile";
 import Admin, { Annoucements, Dashboard, SubmissionUpdatesPage } from "./views/admin";
-
+import MembershipForm from "./views/membership/MembershipForm";
 function App() {
   return (
     <BrowserRouter>
@@ -23,11 +23,12 @@ function App() {
               <Route path="experience" element={<ProfessionalDetails />} />
               <Route path="*" element={<h1>TODO</h1>} />
             </Route>
+            <Route path="/membership-registration" element={<ProtectedComponent><MembershipForm /></ProtectedComponent>} />
             <Route path="/admin" element={<Admin />} >
               <Route path="" element={<Dashboard />} />
               <Route path="annoucements" element={<Annoucements />} />
               <Route path="submission-updates" element={<SubmissionUpdatesPage />} />
-              <Route path="*" element={<h1>TODO</h1>} />
+              <Route path="*" element={<MembershipForm />} />
             </Route>
 
             <Route path="*" element={<Header pageHeading="404" subHeading="Page not found" />} />
