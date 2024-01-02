@@ -4,9 +4,9 @@ import ModalComponent from "../../../components/forms/Modal/ModalComponent"
 import { EditPencil, PlusCircle as AddIcon } from 'iconoir-react'
 import styles from '../Profile.module.scss'
 import { useEffect, useState } from "react"
+import { dataValueLookup } from "../../../utils/data"
 
-const EducationFormNITAP = ({ onSubmit }) => {
-  const prefillData = { institute: 'National Institute of Technology, Arunachal Pradesh' }
+const EducationFormNITAP = ({ onSubmit, prefillData = { institute: 'National Institute of Technology, Arunachal Pradesh' } }) => {
   return (
     <SchemaForm prefillData={prefillData} schema={[
       { name: 'institute', label: 'Institute', type: 'text', required: 'Institute is requried', disabled: true },
@@ -33,9 +33,9 @@ const EducationFormNITAP = ({ onSubmit }) => {
   )
 }
 
-const EducationForm = ({ onSubmit }) => {
+const EducationForm = ({ onSubmit, prefillData = {} }) => {
   return (
-    <SchemaForm schema={[
+    <SchemaForm prefillData={prefillData} schema={[
       { name: 'institute', label: 'Institute (Ex. IIT Madras)', type: 'text', required: 'Institute is requried' },
       { name: 'degree', label: 'Degree', type: 'text', required: 'Degree is required' },
       {
@@ -54,55 +54,43 @@ const EducationForm = ({ onSubmit }) => {
   )
 }
 
-const EducationComponent = ({ data }, setIsModalOpen) => {
-  const degreeMap = new Map([
-    ["btech", "Bachelor of Technology"],
-    ["mtech", "Master of Technology"],
-    ["phd", "Doctor of Philosophy"]
-  ]);
-
-  const capitalizeFirstTwoLetters = (str) => {
-    return str.charAt(0).toUpperCase() + str.slice(1, 2).toUpperCase() + str.slice(2);
-  }
+const EducationComponent = ({ data, openEditModal }) => {
   return (
-    <div className={cx(styles['box-row'], styles.header)} >
+    <div className={cx(styles['box-row'])} >
       <div className={cx(styles['logo-container'])}>
         {data.institute === 'National Institute of Technology, Arunachal Pradesh' ? (
           <img className={styles['logo']} src="/nitap-logo.svg" alt="nitap-logo" />
         ) : (
           <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/university.png" alt="university" />)}
       </div>
-
-      <div className={cx(styles['box-column'])}>
+      <div className={cx(styles['col'])}>
         <div className={cx(styles['college-name'], styles.value)}>
           {data.institute}
         </div>
         <div className={cx(styles['course-details'], styles.label)}>
-          <p className={cx(styles['course-name'])}>{degreeMap.get(data.degree)} - {capitalizeFirstTwoLetters(data.degree)} in {data.discipline}</p>
+          <p className={cx(styles['course-name'])}>{dataValueLookup[data.degree] || data.degree} ({dataValueLookup[data.type]}) in {data.discipline}</p>
           <p className={cx(styles['course-duration'])}>{new Date(data.startDate).toLocaleString('default', { month: 'short' })} {new Date(data.startDate).getFullYear()} - {new Date(data.endDate).toLocaleString('default', { month: 'short' })} {new Date(data.endDate).getFullYear()}
-            {data.endDate > Date.now() ? " (Expected)" : ""}  {data.type === 'full-time' ? 'Full-Time' : 'Part-Time'}  </p>
-          <p className={cx(styles['course-grades'])}>Grade: A</p>
+            {new Date(data.endDate) > new Date() ? " (Expected)" : ""}</p>
         </div>
-        <div className={cx(styles['course-description'])}>
-          {data.courseDescription && <>
-            {data.courseDescription}
-          </>}
-        </div>
+        {!!data.description && (
+          <div className={cx(styles['course-description'])}>
+            {data.description}
+          </div>
+        )}
       </div>
-
-      <div className={cx(styles['box-column'])} >
-        <Button className={cx(styles['editIcon'])} onClick={() => setIsModalOpen(true)}>
-          <EditPencil />Edit
+      <div>
+        <Button attrs={{ 'aria-label': 'Edit education details' }} className={cx(styles['editIcon'])} onClick={() => openEditModal(data)}>
+          <EditPencil />
         </Button>
       </div>
     </div>
   );
-
-
 }
 
 const AcademicDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editPrefillData, setEditPrefillData] = useState({});
   const [educations, setEducations] = useState([]);
 
   // add, update or delete
@@ -140,23 +128,10 @@ const AcademicDetails = () => {
     }).catch(err => console.error(err))
   }
 
-  const onSubmit = (data) => {
-    console.log(data)
-    fetch('/users/update-profile', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      credentials: 'include',
-      headers: {
-        'Content-type': 'application/json'
-      }
-    }).then(res => res.json())
-      .then(resJson => {
-        if (resJson.success) {
-          // TODO: redirect to dashboard
-        }
-      })
-      .catch(err => console.log(err))
-  };
+  const openEditModal = (data) => {
+    setEditPrefillData(data);
+    setIsEditModalOpen(true);
+  }
 
   useEffect(() => {
     fetchEducation();
@@ -164,46 +139,43 @@ const AcademicDetails = () => {
 
   return (<>
     <section className={styles.box}>
-      <Button onClick={() => setIsModalOpen(true)}>
-        Add education
-      </Button>
-      {(educations?.length === 0) ? (
-        <ModalComponent
-          modalTitle="Add education at NIT Arunachal Pradesh"
-          isOpen={isModalOpen}
-          setIsOpen={setIsModalOpen}>
-          <section className={styles.box}>
-            <EducationFormNITAP onSubmit={updateEducation} />
-          </section>
-        </ModalComponent>
-      ) : (
-        <ModalComponent modalTitle="Add Education" isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
-          <section className={styles.box}>
-            <EducationForm onSubmit={updateEducation} />
-          </section>
-        </ModalComponent>
-      )}
-    </section>
-    <section className={styles.box}>
       <div className={styles['box-table']}>
-
         <div className={cx(styles['box-row'], styles.header)} >
-          <h3 className={styles['title']}>Academic Details</h3>
-
-          <Button onClick={() => setIsModalOpen(true)}>
+          <div className={styles['col']}>
+            <h3 className={styles['title']}>
+              Academic Details
+            </h3>
+          </div>
+          <Button onClick={setIsModalOpen}>
             <AddIcon />Add
           </Button>
         </div>
-        <div className={cx(styles['box-row'])}>
-          {educations.map(e => (
-            <pre>
-              {/* {JSON.stringify(e, null, 2)} */}
-              <EducationComponent data={e} key={e.institute} setIsModalOpen={setIsModalOpen} />
-            </pre>
-          ))}
-        </div>
+        {educations.map(e => (
+          <EducationComponent data={e} key={e.institute} openEditModal={openEditModal} />
+        ))}
 
+        {(educations?.length === 0) ? (
+          <ModalComponent
+            modalTitle="Add education at NIT Arunachal Pradesh"
+            isOpen={isModalOpen}
+            setIsOpen={setIsModalOpen}>
+            <section className={styles.box}>
+              <EducationFormNITAP onSubmit={updateEducation} />
+            </section>
+          </ModalComponent>
+        ) : (
+          <ModalComponent modalTitle="Add Education" isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
+            <section className={styles.box}>
+              <EducationForm onSubmit={updateEducation} />
+            </section>
+          </ModalComponent>
+        )}
 
+        <ModalComponent modalTitle="Edit Education" isOpen={isEditModalOpen} setIsOpen={setIsEditModalOpen}>
+          <section className={styles.box}>
+            <EducationForm onSubmit={updateEducation} prefillData={editPrefillData} />
+          </section>
+        </ModalComponent>
       </div>
     </section>
   </>)

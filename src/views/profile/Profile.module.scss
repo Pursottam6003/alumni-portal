@@ -60,10 +60,13 @@
   .box-table {
     margin: 1rem 0 0;
 
+    &:first-child {
+      margin-top: 0;
+    }
+
     .box-row {
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
       gap: 0 1.2rem;
       flex-wrap: wrap;
       font-size: 0.9rem;
@@ -96,6 +99,12 @@
 
     .box-row.header {
       border-bottom: 1px solid rgb(229, 231, 235);
+      align-items: center;
+      .col {
+        > * {
+          margin: 0;
+        }
+      }
     }
   }
 
@@ -331,9 +340,8 @@
 
 .logo-container {
   .logo {
-    width: 55px;
+    width: 50px;
     height: auto;
-    margin-bottom: 1.2rem;
   }
 }
 
