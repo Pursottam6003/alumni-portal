@@ -203,7 +203,10 @@ users.route('/users/experience').post(authenticate, (req, res, next) => {
   const keys = experienceKeys.filter(key => body[key] !== undefined && key !== 'userId');
 
   const placeholders = keys.map(() => "?").join(", ");
-  const values = [user.id, ...keys.map(key => body[key])];
+  const values = [user.id, ...keys.map(key => {
+    if (key === 'ctc') return parseFloat(body[key]) || null;
+    return body[key]
+  })];
   const sql = `
     INSERT INTO experiences (userId, ${keys.join(", ")})
     VALUES (?, ${placeholders})

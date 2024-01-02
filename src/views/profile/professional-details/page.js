@@ -16,11 +16,12 @@ const ExperienceForm = ({ onSubmit, prefillData = {} }) => {
           { value: 'internship', label: 'Internship' },
         ]
       },
-      { name: 'company', label: 'Company/Organization', type: 'text', required: 'Company/organization name is required' },
+      { name: 'organisation', label: 'Company/Organization', type: 'text', required: 'Company/organization name is required' },
       { name: 'designation', label: 'Designation/Role', type: 'text', required: 'Designation is required' },
       { name: 'location', label: 'Location', type: 'text', required: 'Location is required' },
-      { name: 'workFrom', label: 'Work From', type: 'date', required: 'Work from date is required' },
-      { name: 'workTo', label: 'Work To (leave empty if this is your current job)', type: 'date' },
+      { name: 'startDate', label: 'Start date', type: 'date', required: 'Work from date is required' },
+      { name: 'endDate', label: 'Leave date (leave empty if this is your current job)', type: 'date' },
+      { name: 'ctc', label: 'CTC in LPA', type: 'number' },
       { name: 'description', label: 'Description', type: 'textarea' },
     ]} onSubmit={onSubmit} actions={(
       <Button type="submit" className='primary'>Save changes</Button>
@@ -124,8 +125,8 @@ const ProfessionalDetails = () => {
             <AddIcon />Add
           </Button>
         </div>
-        {experiences.map(e => (
-          <ExperienceComponent data={e} key={e.institute} openEditModal={openEditModal} />
+        {experiences.map((e, i) => (
+          <ExperienceComponent data={e} key={i} openEditModal={openEditModal} />
         ))}
 
         <ModalComponent modalTitle="Add Experience" isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
