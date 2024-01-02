@@ -19,8 +19,8 @@ function App() {
             <Route path="/register-old" element={<RegisterOld />} />
             <Route path="/profile" element={<ProtectedComponent><Profile /></ProtectedComponent>}>
               <Route path="" element={<PersonalDetails />} />
-              <Route path="academic" element={<AcademicDetails />} />
-              <Route path="professional" element={<ProfessionalDetails />} />
+              <Route path="education" element={<AcademicDetails />} />
+              <Route path="experience" element={<ProfessionalDetails />} />
               <Route path="*" element={<h1>TODO</h1>} />
             </Route>
             <Route path="/admin" element={<Admin />} >

@@ -44,10 +44,9 @@ const ProfileLayout = ({ children }) => {
   const { logout } = useUser();
 
   const profileLinks = [
-    { name: 'Personal details', path: '/profile', Icon: UserIcon, },
-    { name: 'Academic details', path: '/profile/academic', Icon: BookIcon, },
-    { name: 'Professional details', path: '/profile/professional', Icon: SuitcaseIcon, },
-
+    { name: 'Profile', path: '/profile', Icon: UserIcon, },
+    { name: 'Education', path: '/profile/education', Icon: BookIcon, },
+    { name: 'Experience', path: '/profile/experience', Icon: SuitcaseIcon, },
   ]
 
   const accountLinks = [
