@@ -8,7 +8,7 @@ const clearSession = require('../middlewares/clearSession');
 const { uploadAvatar } = require('../middlewares/uploadFile');
 const expiresInMin = 60;
 
-const { profiles: profileKeys, academics: academicKeys } = require('../db/schema');
+const { profiles: profileKeys, academics: academicKeys, experiences: experienceKeys } = require('../db/schema');
 
 const db = require('../db/conn').getDb();
 
@@ -193,6 +193,49 @@ users.route('/users/education').get(authenticate, (req, res, next) => {
     if (err) return next(err);
     console.log('Education list', results);
     res.status(200).json({ success: true, educationList: results });
+  })
+});
+
+users.route('/users/experience').post(authenticate, (req, res, next) => {
+  const user = req.user;
+  const body = req.body;
+
+  const keys = experienceKeys.filter(key => body[key] !== undefined && key !== 'userId');
+
+  const placeholders = keys.map(() => "?").join(", ");
+  const values = [user.id, ...keys.map(key => body[key])];
+  const sql = `
+    INSERT INTO academics (userId, ${keys.join(", ")})
+    VALUES (?, ${placeholders})
+    ON DUPLICATE KEY UPDATE ${keys.map(key => `${key} = VALUES(${key})`).join(", ")}
+  `;
+  db.query(sql, values, (err, results) => {
+    if (err) return next(err);
+    console.log('Added experience:', results);
+    res.status(200).json({ message: 'Experience updated', success: true });
+  });
+});
+
+users.route('/users/experience').delete(authenticate, (req, res, next) => {
+  const user = req.user;
+  const id = req.query.id;
+
+  const sql = 'DELETE FROM academics WHERE id = ? AND userId = ?';
+  db.query(sql, [id, user.id], (err, results) => {
+    if (err) return next(err);
+    console.log('Deleted experience:', results);
+    res.status(200).json({ message: 'Experience deleted', success: true });
+  });
+});
+
+users.route('/users/experience').get(authenticate, (req, res, next) => {
+  const user = req.user;
+
+  const sql = `SELECT * FROM academics WHERE userId = ?`;
+  db.query(sql, [user.id], (err, results) => {
+    if (err) return next(err);
+    console.log('Experience list', results);
+    res.status(200).json({ success: true, experienceList: results });
   })
 });
 

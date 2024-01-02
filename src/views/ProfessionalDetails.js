@@ -32,9 +32,7 @@ const ExperienceForm = ({ onSubmit, prefillData = null }) => {
 
 const ProfessionalDetails = () => {
   const [loading, setLoading] = useState(true);
-  const [experiences, setExperiences] = useState([
-    { id: 1, type: 'job', organization: 'Google', designation: 'Software Engineer', startDate: '2019-01-01', endDate: '2020-01-01', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.' },
-  ]);
+  const [experiences, setExperiences] = useState([]);
 
   const handleSubmit = (data) => {
     console.log(data);
