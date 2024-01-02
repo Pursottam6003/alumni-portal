@@ -16,6 +16,8 @@ const dataValueLookup = {
   'phd': 'Doctor of Philosophy',
   'full-time': 'Full time',
   'part-time': 'Part time',
+  'job': 'Job',
+  'internship': 'Internship',
 }
 
 export { dataValueLookup }
