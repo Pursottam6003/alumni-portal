@@ -8,7 +8,7 @@ import { dataValueLookup } from "../../../utils/data"
 
 const ExperienceForm = ({ onSubmit, prefillData = {} }) => {
   return (
-    <SchemaForm schema={[
+    <SchemaForm prefillData={prefillData} schema={[
       { type: 'section', label: 'Professional Details' },
       {
         name: 'type', label: 'Type', type: 'select', required: 'Type is required', options: [
@@ -33,19 +33,26 @@ const ExperienceComponent = ({ data, openEditModal }) => {
   return (
     <div className={cx(styles['box-row'])} >
       <div className={cx(styles['logo-container'])}>
-        {data.institute === 'National Institute of Technology, Arunachal Pradesh' ? (
-          <img className={styles['logo']} src="/nitap-logo.svg" alt="nitap-logo" />
-        ) : (
-          <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/university.png" alt="university" />)}
+        <img width="50" height="50" src="https://img.icons8.com/ios-filled/50/university.png" alt="university" />
       </div>
       <div className={cx(styles['col'])}>
         <div className={cx(styles['college-name'], styles.value)}>
-          {data.institute}
+          {data.organisation}
         </div>
         <div className={cx(styles['course-details'], styles.label)}>
-          <p className={cx(styles['course-name'])}>{dataValueLookup[data.degree] || data.degree} ({dataValueLookup[data.type]}) in {data.discipline}</p>
-          <p className={cx(styles['course-duration'])}>{new Date(data.startDate).toLocaleString('default', { month: 'short' })} {new Date(data.startDate).getFullYear()} - {new Date(data.endDate).toLocaleString('default', { month: 'short' })} {new Date(data.endDate).getFullYear()}
-            {new Date(data.endDate) > new Date() ? " (Expected)" : ""}</p>
+          <p className={cx(styles['course-name'])}>
+            {data.designation} {data.type === 'internship' && dataValueLookup[data.type]}
+          </p>
+          <p className={cx(styles['course-name'])}>
+            {data.location}
+          </p>
+          <p className={cx(styles['course-duration'])}>
+            {new Date(data.startDate).toLocaleString('default', { month: 'short' })} {new Date(data.startDate).getFullYear()} - {
+              data.endDate
+                ? `${new Date(data.endDate).toLocaleString('default', { month: 'short' })} ${new Date(data.endDate).getFullYear()}`
+                : 'Present'
+            }
+          </p>
         </div>
         {!!data.description && (
           <div className={cx(styles['course-description'])}>
@@ -64,7 +71,6 @@ const ExperienceComponent = ({ data, openEditModal }) => {
 
 const ProfessionalDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editPrefillData, setEditPrefillData] = useState({});
   const [experiences, setExperiences] = useState([]);
 
@@ -103,9 +109,9 @@ const ProfessionalDetails = () => {
     }).catch(err => console.error(err))
   }
 
-  const openEditModal = (data) => {
+  const openModal = (data = null) => {
     setEditPrefillData(data);
-    setIsEditModalOpen(true);
+    setIsModalOpen(true);
   }
 
   useEffect(() => {
@@ -121,20 +127,15 @@ const ProfessionalDetails = () => {
               Professional Details
             </h3>
           </div>
-          <Button onClick={setIsModalOpen}>
+          <Button onClick={openModal}>
             <AddIcon />Add
           </Button>
         </div>
         {experiences.map((e, i) => (
-          <ExperienceComponent data={e} key={i} openEditModal={openEditModal} />
+          <ExperienceComponent data={e} key={i} openEditModal={openModal} />
         ))}
 
         <ModalComponent modalTitle="Add Experience" isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
-          <section className={styles.box}>
-            <ExperienceForm onSubmit={updateExperience} />
-          </section>
-        </ModalComponent>
-        <ModalComponent modalTitle="Edit Experience" isOpen={isEditModalOpen} setIsOpen={setIsEditModalOpen}>
           <section className={styles.box}>
             <ExperienceForm onSubmit={updateExperience} prefillData={editPrefillData} />
           </section>

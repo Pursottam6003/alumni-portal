@@ -89,7 +89,6 @@ const EducationComponent = ({ data, openEditModal }) => {
 
 const AcademicDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editPrefillData, setEditPrefillData] = useState({});
   const [educations, setEducations] = useState([]);
 
@@ -128,9 +127,9 @@ const AcademicDetails = () => {
     }).catch(err => console.error(err))
   }
 
-  const openEditModal = (data) => {
+  const openModal = (data = null) => {
     setEditPrefillData(data);
-    setIsEditModalOpen(true);
+    setIsModalOpen(true);
   }
 
   useEffect(() => {
@@ -146,12 +145,12 @@ const AcademicDetails = () => {
               Academic Details
             </h3>
           </div>
-          <Button onClick={setIsModalOpen}>
+          <Button onClick={openModal}>
             <AddIcon />Add
           </Button>
         </div>
         {educations.map(e => (
-          <EducationComponent data={e} key={e.institute} openEditModal={openEditModal} />
+          <EducationComponent data={e} key={e.institute} openEditModal={openModal} />
         ))}
 
         {(educations?.length === 0) ? (
@@ -166,16 +165,10 @@ const AcademicDetails = () => {
         ) : (
           <ModalComponent modalTitle="Add Education" isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
             <section className={styles.box}>
-              <EducationForm onSubmit={updateEducation} />
+              <EducationForm onSubmit={updateEducation} prefillData={editPrefillData} />
             </section>
           </ModalComponent>
         )}
-
-        <ModalComponent modalTitle="Edit Education" isOpen={isEditModalOpen} setIsOpen={setIsEditModalOpen}>
-          <section className={styles.box}>
-            <EducationForm onSubmit={updateEducation} prefillData={editPrefillData} />
-          </section>
-        </ModalComponent>
       </div>
     </section>
   </>)
