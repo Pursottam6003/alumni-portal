@@ -1,1 +1,0 @@
-const users = ['id', 'email', 'password']

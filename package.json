@@ -1,62 +1,36 @@
 {
   "name": "alumni-portal",
   "version": "0.1.0",
-  "private": true,
-  "proxy": "http://localhost:5000",
+  "description": "Vite React port of alumni-portal application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "node --watch server.js",
+    "client": "npm run dev --prefix client",
+    "build": "npm run build --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "keywords": [
+    "MERN",
+    "Alumni",
+    "Portal"
+  ],
+  "author": "Chandrashekhar Tripathi and Pursottam Sah",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "sass": "^1.69.7"
+  },
   "dependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
     "bcrypt": "^5.1.1",
-    "classnames": "^2.3.2",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-fileupload": "^1.4.3",
-    "iconoir-react": "^7.2.0",
+    "iconoir-react": "^7.3.0",
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
-    "mysql2": "^3.6.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-hook-form": "^7.49.0",
-    "react-router": "^6.20.1",
-    "react-router-dom": "^6.20.1",
-    "react-scripts": "5.0.1",
-    "sass": "^1.69.5",
-    "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "concurrently \"npm run dev-server\" \"npm run dev-client\"",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "dev-server": "nodemon server/index.js --watch server",
-    "dev-client": "react-scripts start",
-    "serve": "node server/index.js"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "concurrently": "^8.2.2",
-    "eslint-plugin-security": "^2.1.0",
-    "nodemon": "^3.0.2"
+    "mysql2": "^3.6.5"
   }
 }
